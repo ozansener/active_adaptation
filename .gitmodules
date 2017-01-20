@@ -1,0 +1,3 @@
+[submodule "tf_base"]
+	path = tf_base
+	url = git@github.com:ozansener/tf_base.git
