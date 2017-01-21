@@ -15,9 +15,9 @@
 # Jan 20,21,22
 
 ## Jan 20
-- Cifar10 training and test (full data/nothing new using tf_base)
-- Set the seed training_set and save it num_images = 5000
-- Random active learning test 0.1/0.2/0.3/0.4/0.5/0.6/0.7/0.8/0.9/1.0
+- <del>Cifar10 training and test (full data/nothing new using tf_base)</del>
+- <del>Set the seed training_set and save it num_images = 5000</del>
+- Random active learning test <del>0.1/0.2/0.3/</del>0.4/0.5/0.6/0.7/0.8/0.9/<del>1.0</del>
 - Plot the accuracy vs training data (baseline 1)
 
 ## Jan 21
