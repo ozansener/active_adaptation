@@ -28,3 +28,12 @@
 ## Jan 22
 - Sample new data with the learned model
 - Plot the accuracy vs training data (proposed model)
+
+
+## Device Assignment
+- 109 5k/10k/15k/20k
+- 110 25k/30k/35k/40k
+
+# TODO
+- Figure out what's happening if there is dropout
+- 
