@@ -19,8 +19,8 @@
 - <del>Plot the accuracy vs training data (baseline 1)</del> see acc_vs_size.png
 
 ## Step Baseline 2
-- L_avg -> L_max experiment with the same setup 
-- No random selection, just a sampling w/ replacement
+- <del>L_avg -> L_max experiment with the same setup </del>
+- <del>No random selection, just a sampling w/ replacement </del>
 - Plot the accuracy vs training data (baseline 2)
 
 ## Step Active Learning
