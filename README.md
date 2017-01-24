@@ -35,6 +35,9 @@
 - 110 20k/25k/30k/35k
 - 106 40k/45k
 
+## Results
+50,55,62,68,70,73,76,78,79,81
+
 # TODO
 
 - Figure out what's happening if there is dropout
