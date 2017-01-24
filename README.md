@@ -21,9 +21,15 @@
 ## Step Baseline 2
 - <del>L_avg -> L_max experiment with the same setup </del>
 - <del>No random selection, just a sampling w/ replacement </del>
+- Refactor the code
+- Re-run the baseline 1
+- Run the baseline 2
 - Plot the accuracy vs training data (baseline 2)
 
 ## Step Active Learning
+- Consider a few tricks
+    - Re-initialize everything
+    - Keep a validation and learn adverserial only on the validation (no contamination since actual network never sees it)
 - Sample new data with the learned model
 - Plot the accuracy vs training data (proposed model)
 
