@@ -25,6 +25,7 @@
 - Re-run the baseline 1
 - Run the baseline 2
 - Plot the accuracy vs training data (baseline 2)
+- Consider unbiasing the gradients
 
 ## Step Active Learning
 - Consider a few tricks
