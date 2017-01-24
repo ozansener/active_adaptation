@@ -18,7 +18,7 @@
 - <del>Cifar10 training and test (full data/nothing new using tf_base)</del>
 - <del>Set the seed training_set and save it num_images = 5000</del>
 - <del>Random active learning test 0.1/0.2/0.3/0.4/0.5/0.6/0.7/0.8/0.9/1.0</del>
-- <del>Plot the accuracy vs training data (baseline 1)</del>
+- <del>Plot the accuracy vs training data (baseline 1)</del> see acc_vs_size.png
 
 ## Jan 21
 - L_avg -> L_max experiment with the same setup 
@@ -37,7 +37,6 @@
 
 ## Results
 50,55,62,68,70,73,76,78,79,81
-see acc_vs_size.png
 
 # TODO
 
