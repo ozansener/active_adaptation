@@ -37,6 +37,7 @@
 
 ## Results
 50,55,62,68,70,73,76,78,79,81
+see acc_vs_size.png
 
 # TODO
 
