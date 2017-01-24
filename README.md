@@ -12,23 +12,26 @@
 - Counter-Factual learning
 - NIPS? May 20?
 
-# Jan 20,21,22
-
-## Jan 20
+## Step Baseline 1
 - <del>Cifar10 training and test (full data/nothing new using tf_base)</del>
 - <del>Set the seed training_set and save it num_images = 5000</del>
 - <del>Random active learning test 0.1/0.2/0.3/0.4/0.5/0.6/0.7/0.8/0.9/1.0</del>
 - <del>Plot the accuracy vs training data (baseline 1)</del> see acc_vs_size.png
 
-## Jan 21
+## Step Baseline 2
 - L_avg -> L_max experiment with the same setup 
 - No random selection, just a sampling w/ replacement
 - Plot the accuracy vs training data (baseline 2)
 
-## Jan 22
+## Step Active Learning
 - Sample new data with the learned model
 - Plot the accuracy vs training data (proposed model)
 
+## Step Domain Adaptation
+- Modify the loss/adversery to be applicable to domain adaptation
+
+## Step Active Learning with DA
+- Combine everything
 
 ## Device Assignment
 - 109 0/5k/10k/15k
