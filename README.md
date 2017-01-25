@@ -26,6 +26,7 @@
 - Run the baseline 2
 - Plot the accuracy vs training data (baseline 2)
 - Consider unbiasing the gradients
+- Consider dropping one fc layer
 
 ## Step Active Learning
 - Consider a few tricks
