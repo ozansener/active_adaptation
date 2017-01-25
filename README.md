@@ -21,7 +21,7 @@
 ## Step Baseline 2
 - <del>L_avg -> L_max experiment with the same setup </del>
 - <del>No random selection, just a sampling w/ replacement </del>
-- Refactor the code
+- <del>Refactor the code</del>
 - Re-run the baseline 1
 - Run the baseline 2
 - Plot the accuracy vs training data (baseline 2)
