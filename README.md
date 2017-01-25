@@ -22,9 +22,9 @@
 - <del>L_avg -> L_max experiment with the same setup </del>
 - <del>No random selection, just a sampling w/ replacement </del>
 - <del>Refactor the code</del>
-- Re-run the baseline 1
-- Run the baseline 2
-- Plot the accuracy vs training data (baseline 2)
+- <del>Re-run the baseline 1</del>
+- <del> Run the baseline 2 </del>
+- <del> Plot the accuracy vs training data (baseline 2) </del>
 - Consider unbiasing the gradients
 - Consider dropping one fc layer
 
