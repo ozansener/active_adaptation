@@ -34,6 +34,7 @@
     - Keep a validation and learn adverserial only on the validation (no contamination since actual network never sees it)
 - Sample new data with the learned model
 - May be a diversity trick?
+    - Diversity is a submodular function if defined as sum of total probability covered around each ball
 - Plot the accuracy vs training data (proposed model)
 
 ## Step Domain Adaptation
