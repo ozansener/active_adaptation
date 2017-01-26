@@ -33,6 +33,7 @@
     - Re-initialize everything
     - Keep a validation and learn adverserial only on the validation (no contamination since actual network never sees it)
 - Sample new data with the learned model
+- May be a diversity trick?
 - Plot the accuracy vs training data (proposed model)
 
 ## Step Domain Adaptation
@@ -50,5 +51,6 @@
 50,55,62,68,70,73,76,78,79,81
 
 # TODO
-
-- Figure out what's happening if there is dropout
+- <del> Figure out what's happening if there is dropout </del>
+- Write the testing code for arbitrary models 
+- Test everything on the spreadsheat and look at the result
