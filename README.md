@@ -52,7 +52,12 @@
 ## Results
 50,55,62,68,70,73,76,78,79,81
 
+## Way to sample active datapoints
+- get the top 5000 expected loss make it 1 rest 0
+- combine with gamma = 0.01 or 0.02
+
 # TODO
 - <del> Figure out what's happening if there is dropout </del>
 - Write the testing code for arbitrary models 
 - Test everything on the spreadsheat and look at the result
+
