@@ -3,14 +3,15 @@
 - Implement adverserial Lavg -> Lmax
 - Robust optimization experiment
 - Active learning experiment
-- ICML? Feb 24!!!!
+- ICML Feb 24!!!!
 - Figure out the theory part of domain adaptation stuff
+- Domain adaptation as a discriminator
 - Domain adaptation experiment
 - Active domain adaptation experiment
-- ICCV? March 17
+- ICCV March 17
 - RL experiment with robots
 - Counter-Factual learning
-- NIPS? May 20?
+- NIPS May 19
 
 ## Step Baseline 1
 - <del>Cifar10 training and test (full data/nothing new using tf_base)</del>
