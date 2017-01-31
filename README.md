@@ -39,6 +39,7 @@
 - To match theory and practice, put feature learning in both players
 - Include gradient reversal layer
 - <del> Try with oracle loss </del> still worse than random may be it is bringing sort of a bias
+- Look at the tSNE plot and see is it because of diversity
 - Plot the accuracy vs training data (proposed model)
 
 ## Step Domain Adaptation
@@ -59,8 +60,4 @@
 - get the top 5000 expected loss make it 1 rest 0
 - combine with gamma = 0.01 or 0.02
 
-# TODO
-- <del> Figure out what's happening if there is dropout </del>
-- Write the testing code for arbitrary models 
-- Test everything on the spreadsheat and look at the result
 
