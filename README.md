@@ -38,7 +38,7 @@
     - Diversity is a submodular function if defined as sum of total probability covered around each ball
 - To match theory and practice, put feature learning in both players
 - Include gradient reversal layer
-- Try with oracle loss
+- <del> Try with oracle loss </del> still worse than random may be it is bringing sort of a bias
 - Plot the accuracy vs training data (proposed model)
 
 ## Step Domain Adaptation
