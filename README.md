@@ -31,12 +31,14 @@
 
 ## Step Active Learning
 - Consider a few tricks
-    - Re-initialize everything
-    - Keep a validation and learn adverserial only on the validation (no contamination since actual network never sees it)
+    - <del> Re-initialize everything </del> effective but not much
+    - <dek> Keep a validation and learn adverserial only on the validation (no contamination since actual network never sees it) </del> effective but not much
 - Sample new data with the learned model
-- May be a diversity trick?
+- May be a diversity trick? (still a valid thing)
     - Diversity is a submodular function if defined as sum of total probability covered around each ball
 - To match theory and practice, put feature learning in both players
+- Include gradient reversal layer
+- Try with oracle loss
 - Plot the accuracy vs training data (proposed model)
 
 ## Step Domain Adaptation
