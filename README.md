@@ -26,20 +26,24 @@
 - <del>Re-run the baseline 1</del>
 - <del> Run the baseline 2 </del>
 - <del> Plot the accuracy vs training data (baseline 2) </del>
-- Consider unbiasing the gradients
-- Consider dropping one fc layer
+- <del> Consider unbiasing the gradients </del> samples are pretty uniform
+- <del> Consider dropping one fc layer </del> the reason is about distribution difference
 
 ## Step Active Learning
 - Consider a few tricks
     - <del> Re-initialize everything </del> effective but not much
     - <dek> Keep a validation and learn adverserial only on the validation (no contamination since actual network never sees it) </del> effective but not much
 - Sample new data with the learned model
-- May be a diversity trick? (still a valid thing)
+- May be a diversity trick? <del>(still a valid thing)</del> does not seem necessary since tSNE is pretty diverse
     - Diversity is a submodular function if defined as sum of total probability covered around each ball
 - To match theory and practice, put feature learning in both players
 - Include gradient reversal layer
+    - Seems like best option for now
+    - Step 1: vanilla reversal
+    - Step 2: vanilla reversal+loss_rescale
+    - Step 3: active learning
 - <del> Try with oracle loss </del> still worse than random may be it is bringing sort of a bias
-- Look at the tSNE plot and see is it because of diversity
+- <del> Look at the tSNE plot and see is it because of diversity</del> it is pretty diverse
 - Plot the accuracy vs training data (proposed model)
 
 ## Step Domain Adaptation
