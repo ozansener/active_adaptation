@@ -39,7 +39,7 @@
 - To match theory and practice, put feature learning in both players
 - Include gradient reversal layer
     - Seems like best option for now
-    - Step 1: vanilla reversal
+    - <del>Step 1: vanilla reversal</del> Note: ADAM is using second derivative which is crap in adverserial setting so use momentum
     - Step 2: vanilla reversal+loss_rescale
     - Step 3: active learning
 - <del> Try with oracle loss </del> still worse than random may be it is bringing sort of a bias
