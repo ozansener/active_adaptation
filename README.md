@@ -40,10 +40,10 @@
 - Include gradient reversal layer
     - Seems like best option for now
     - <del>Step 1: vanilla reversal</del> Note: ADAM is using second derivative which is crap in adverserial setting so use momentum
-    - Step 2: vanilla reversal+loss_rescale
-    - Step 3: Reversal domain estimate + sampling
-    - Step 4: Reversal + combinatorial sampling (this is desired simply because theory)
-    - Step 5: active learning
+    - Step 1.5: Implement reversal with single output (so it can learn data distribution)
+    - Step 2: vanilla(so) reversal+loss_rescale
+    - Step 3: Reversal(so) domain estimate + sampling
+    - Step 4: Reversal(so and not/so) + combinatorial sampling (this is desired simply because theory)
 - <del> Try with oracle loss </del> still worse than random may be it is bringing sort of a bias
 - <del> Look at the tSNE plot and see is it because of diversity</del> it is pretty diverse
 - Plot the accuracy vs training data (proposed model)
