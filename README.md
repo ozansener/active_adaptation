@@ -41,9 +41,9 @@
     - Seems like best option for now
     - <del>Step 1: vanilla reversal</del> Note: ADAM is using second derivative which is crap in adverserial setting so use momentum
     - Step 2: vanilla reversal+loss_rescale
-    - Test 1: Reversal domain estimate + sampling
-    - Test 2: Reversal + combinatorial sampling (this is desired simply because theory)
-    - Step 3: active learning
+    - Step 3: Reversal domain estimate + sampling
+    - Step 4: Reversal + combinatorial sampling (this is desired simply because theory)
+    - Step 5: active learning
 - <del> Try with oracle loss </del> still worse than random may be it is bringing sort of a bias
 - <del> Look at the tSNE plot and see is it because of diversity</del> it is pretty diverse
 - Plot the accuracy vs training data (proposed model)
@@ -65,5 +65,14 @@
 ## Way to sample active datapoints
 - get the top 5000 expected loss make it 1 rest 0
 - combine with gamma = 0.01 or 0.02
+
+## Report
+- Problem definition (l_emp over supervised+unsupervised, loss_rescale motivation, review of gradient reversal)
+- Sampling strategy (combinatorial algorithm)
+- Theory (proof about robustness etc)
+- Experiments
+    - Cifar 10 / Cifar 100 on VGG
+    - Office
+    - MNIST/SVHN
 
 
