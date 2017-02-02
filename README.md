@@ -41,6 +41,8 @@
     - Seems like best option for now
     - <del>Step 1: vanilla reversal</del> Note: ADAM is using second derivative which is crap in adverserial setting so use momentum
     - Step 2: vanilla reversal+loss_rescale
+    - Test 1: Reversal domain estimate + sampling
+    - Test 2: Reversal + combinatorial sampling (this is desired simply because theory)
     - Step 3: active learning
 - <del> Try with oracle loss </del> still worse than random may be it is bringing sort of a bias
 - <del> Look at the tSNE plot and see is it because of diversity</del> it is pretty diverse
