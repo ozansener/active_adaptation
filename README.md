@@ -85,7 +85,7 @@
 
 # Current TODO
 
-- Get the features and look at the tSNE
+- <del>Get the features and look at the tSNE </del>
 - Sample far points and try this
 - Implement the combinatorial algorithm for N-D, try with 2D t-SNE points
 - Experiment the active learning
