@@ -35,8 +35,9 @@
     - <dek> Keep a validation and learn adverserial only on the validation (no contamination since actual network never sees it) </del> effective but not much
 - Sample new data with the learned model
 - May be a diversity trick? <del>(still a valid thing)</del> does not seem necessary since tSNE is pretty diverse
-    - Diversity is a submodular function if defined as sum of total probability covered around each ball
-- To match theory and practice, put feature learning in both players
+    - <del>Diversity is a submodular function if defined as sum of total probability covered around each ball</del>
+    - Theory suggests a covering ball so let's use that
+- <del>To match theory and practice, put feature learning in both players</del>
 - Include gradient reversal layer
     - Seems like best option for now
     - <del>Step 1: vanilla reversal</del> Note: ADAM is using second derivative which is crap in adverserial setting so use momentum
@@ -46,7 +47,6 @@
     - Step 4: Reversal(so and not/so) + combinatorial sampling (this is desired simply because theory)
 - <del> Try with oracle loss </del> still worse than random may be it is bringing sort of a bias
 - <del> Look at the tSNE plot and see is it because of diversity</del> it is pretty diverse
-- Plot the accuracy vs training data (proposed model)
 
 ## Step Domain Adaptation
 - Modify the loss/adversery to be applicable to domain adaptation
@@ -67,12 +67,25 @@
 - combine with gamma = 0.01 or 0.02
 
 ## Report
-- Problem definition (l_emp over supervised+unsupervised, loss_rescale motivation, review of gradient reversal)
-- Sampling strategy (combinatorial algorithm)
-- Theory (proof about robustness etc)
+- Descrive the active learning with pool problem, state it is a weakly supervised problem and need to be treated like one
+- Discuss p(x) p_n(x) p_\hat{n}(x) and give the basic idea behind loss re-scale and discuss how it can be discussed through alternating minimization (Adverserial Weak Supervision)
+- Discuss the theoretical aspect of active learning
+    - Review robustness and generalization
+    - Lemma (VGG is robust)
+    - Theorem: Any robust algorithm is robust with less samples if ()
+- Discuss the empirical setup and explain the two concepts (fixed budget, single step)
+    - Representations should be as close as possible so it is easier to cover the same space with less points
+        - Gradient reversal layer
+    - The bound depends solely on (\gamma) hence solve combinatorial optimization to have minimum ball
+        - Binary search over a submodular problem
 - Experiments
+    - MNIST
     - Cifar 10 / Cifar 100 on VGG
-    - Office
-    - MNIST/SVHN
 
 
+# Current TODO
+
+- Get the features and look at the tSNE
+- Sample far points and try this
+- Implement the combinatorial algorithm for N-D, try with 2D t-SNE points
+- Experiment the active learning
