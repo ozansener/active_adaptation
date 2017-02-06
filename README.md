@@ -48,6 +48,8 @@
     - Step 4: Reversal(so and not/so) + combinatorial sampling (this is desired simply because theory)
 - <del> Try with oracle loss </del> still worse than random may be it is bringing sort of a bias
 - <del> Look at the tSNE plot and see is it because of diversity</del> it is pretty diverse
+- Exploration works so test different degree of exploration
+
 
 ## Step Domain Adaptation
 - Modify the loss/adversery to be applicable to domain adaptation
