@@ -36,8 +36,8 @@
 - Sample new data with the learned model
 - May be a diversity trick? <del>(still a valid thing)</del> does not seem necessary since tSNE is pretty diverse
     - <del>Diversity is a submodular function if defined as sum of total probability covered around each ball</del>
-    - Theory suggests a covering ball so let's use that
-- Combinatorial Algorithm: start with greedy 2-OPT solution, then refine it using integer programming and binary search if feasible.
+    - <del>Theory suggests a covering ball so let's use that</del>
+- <del>Combinatorial Algorithm: start with greedy 2-OPT solution, then refine it using integer programming and binary search if feasible.</del> this is pretty feasible actually somehow Gurobi is more efficient than greedy one to improve the solution
 - <del>To match theory and practice, put feature learning in both players</del>
 - Include gradient reversal layer
     - Seems like best option for now
