@@ -48,8 +48,9 @@
     - Step 4: Reversal(so and not/so) + combinatorial sampling (this is desired simply because theory)
 - <del> Try with oracle loss </del> still worse than random may be it is bringing sort of a bias
 - <del> Look at the tSNE plot and see is it because of diversity</del> it is pretty diverse
-- Exploration works so test different degree of exploration
+- <del> Exploration works so test different degree of exploration </del> 0.2 seems like a nice one, may be 0.25
 - Consider normalizing stuff since they become crazy (may be remove batch norm)
+- Use BiGAN or ALI as semi-supervised algorithm
 
 
 ## Step Domain Adaptation
