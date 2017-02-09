@@ -49,6 +49,7 @@
 - <del> Try with oracle loss </del> still worse than random may be it is bringing sort of a bias
 - <del> Look at the tSNE plot and see is it because of diversity</del> it is pretty diverse
 - Exploration works so test different degree of exploration
+- Consider normalizing stuff since they become crazy (may be remove batch norm)
 
 
 ## Step Domain Adaptation
