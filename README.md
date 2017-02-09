@@ -52,6 +52,11 @@
 - Consider normalizing stuff since they become crazy (may be remove batch norm)
 - Use BiGAN or ALI as semi-supervised algorithm
 
+## Baselines
+- k-k^\prime
+- maximum uncertanity
+- uncertanity based sampling
+- oracle uncertanity based sampling
 
 ## Step Domain Adaptation
 - Modify the loss/adversery to be applicable to domain adaptation
