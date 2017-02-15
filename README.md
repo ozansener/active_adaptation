@@ -36,17 +36,27 @@
 - Sample new data with the learned model
 - May be a diversity trick? <del>(still a valid thing)</del> does not seem necessary since tSNE is pretty diverse
     - <del>Diversity is a submodular function if defined as sum of total probability covered around each ball</del>
-    - Theory suggests a covering ball so let's use that
+    - <del>Theory suggests a covering ball so let's use that</del>
+- <del>Combinatorial Algorithm: start with greedy 2-OPT solution, then refine it using integer programming and binary search if feasible.</del> this is pretty feasible actually somehow Gurobi is more efficient than greedy one to improve the solution
 - <del>To match theory and practice, put feature learning in both players</del>
 - Include gradient reversal layer
     - Seems like best option for now
-    - <del>Step 1: vanilla reversal</del> Note: ADAM is using second derivative which is crap in adverserial setting so use momentum
-    - Step 1.5: Implement reversal with single output (so it can learn data distribution)
-    - Step 2: vanilla(so) reversal+loss_rescale
-    - Step 3: Reversal(so) domain estimate + sampling
-    - Step 4: Reversal(so and not/so) + combinatorial sampling (this is desired simply because theory)
+    - <del>Step 1: vanilla reversal</del> Note: ADAM is using second derivative which is crap in adverserial setting so use momentum 
+    - <del>Step 1.5: Implement reversal with single output (so it can learn data distribution) </del>
+    - <del>Step 2: vanilla(so) reversal+loss_rescale </del>
+    - <del>Step 3: Reversal(so) domain estimate + sampling </del>
+    - <del>Step 4: Reversal(so and not/so) + combinatorial sampling (this is desired simply because theory) </del>
 - <del> Try with oracle loss </del> still worse than random may be it is bringing sort of a bias
 - <del> Look at the tSNE plot and see is it because of diversity</del> it is pretty diverse
+- <del> Exploration works so test different degree of exploration </del> 0.2 seems like a nice one, may be 0.25
+- Consider normalizing stuff since they become crazy (may be remove batch norm)
+- Use BiGAN or ALI as semi-supervised algorithm
+
+## Baselines
+- k-k^\prime
+- maximum uncertanity
+- uncertanity based sampling
+- oracle uncertanity based sampling
 
 ## Step Domain Adaptation
 - Modify the loss/adversery to be applicable to domain adaptation
@@ -63,8 +73,8 @@
 50,55,62,68,70,73,76,78,79,81
 
 ## Way to sample active datapoints
-- get the top 5000 expected loss make it 1 rest 0
-- combine with gamma = 0.01 or 0.02
+- <del>get the top 5000 expected loss make it 1 rest 0</del>
+- <del>combine with gamma = 0.01 or 0.02</del>
 
 ## Report
 - Descrive the active learning with pool problem, state it is a weakly supervised problem and need to be treated like one
@@ -85,7 +95,7 @@
 
 # Current TODO
 
-- Get the features and look at the tSNE
+- <del>Get the features and look at the tSNE </del>
 - Sample far points and try this
 - Implement the combinatorial algorithm for N-D, try with 2D t-SNE points
 - Experiment the active learning
