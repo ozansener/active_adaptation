@@ -107,73 +107,54 @@ Abstract.
 \end{abstract} 
 
 \section{Introduction}
+para1: active learning is important, even more in deep learning
+
+para2: active learning is not working in deep learning (people claim because of confident mistakes but no)
+
+para3: we go in a space covering approach being as efficient as possible
+
+para4: we analyze everything empirically in supervised and semi-supervised. and also theoretical analysis with a small assumption
+
 \begin{itemize}
-\item To the best of our knowledge, the first empirical negative result on uncertainty based active learning for deep learning
-\item An active learning query algorithm designed and analyzed specifically for convolutional neural networks.
-\item Joint treatment of semi-supervised learning and active learning in the context of deep-learning. 
+\item Empirical and theoretical analysis of k-center algorithm in active learning with Convolutional Neural Networks (CNNs) problem.
+\item First active learning algorithm for semi-supervised deep learning with CNNs.
 \item Simple and very effective algorithm for active learning in deep learning outperforming all state-of-the-art competitors
 \end{itemize}
 
+\clearpage
 \section{Related Work}
+There are many areas of active research related to our work. We divide them in the following categories and discuss them separately. 
 
-\subsection{Active Learning}
-Classical survey of classical algorithms \cite{settles2010active}
+\noindent\textbf{Active Learning}
+Active learning has been widely studies and most of the early work can be found in the classical survey \cite{settles2010active}. It discusses many query strategies like information theoretical methods \cite{mackay1992information} and ensemble approaches \cite{mccallumzy1998employing, freund1997selective}. Bayesian methods typically use a non-parametric model like Gaussian process to model expected improvement of each label \cite{kapoor2007active} or expected error after labels \cite{roy2001toward}. They are typically used as per instance selection, however, they can be extended to batch models to choose multiple instances to label \cite{wang2016parallel}. These approaches are typically not applicable to deep learning scenarios since they do not scale well. Ensemble methods are also not applicable to deep learning because of large parameter space of deep learning algorithms. Such ensemble methods requires intractable number of networks to be trained to be effective in such a large dimensional parameter space.
 
-Some early information theoretical methods for queries \cite{mackay1992information}
+One important class is uncertainty based selection \cite{tong2001support,lewissequential,joshi2009multi,li2013adaptive} like entropy \cite{joshi2009multi} geometric metric for SVM \cite{tong2001support,brinker2003incorporating} etc. We present an empirical result in Section~\ref{neg_res} which motivated us to move away from such techniques. We show that even in the oracle case, such algorithms have very limited accuracy improvement. Specifically, in semi-supervised case they even sometime decrease the accuracy. We discuss these points in detail in Section~\ref{neg_res}.
 
-Another class is query-by-commitee \cite{mccallumzy1998employing, freund1997selective}
-
-Convex optimization combining diversity and uncertainity \cite{elhamifar2013convex}
-
+More recently, we have seen optimization based approaches which can trade-off uncertainty and diversity in order to obtain diverse set of high likely negatives. Elhamifar~et al.  \cite{elhamifar2013convex} design a discrete optimization problem for this purpose and uses its convex surrogate. However, the algorithm uses $n^2$ variables where $n$ is the number of data points hence do not scale to large-datasets of interest in deep learning. There are also many discrete optimization based active algorithms designed for specific class of machine learning algorithms like k-nearest neighbors and naive Bayes \cite{wei2015submodularity}. Even in general case, one can design a set-cover algorithm to efficiently cover the hyphotesis space using sub-modularity \cite{guillory2010interactive}. It can even be extended to noisy labels with stochastic extension of the set-cover problem \cite{golovin2011adaptive}. Our algorithm can be considered in this class; however, we do not use the uncertainty information due to the empirical result we present in the Section~\ref{neg_res}. 
 
 
- One of the first theoretical results \cite{dasgupta2004analysis} showing negative results except average case.
-
- First agnostic non-Bayesial algorithm but not computationally applicable \cite{balcan2009agnostic}
-
-In a very recent result, \cite{huang2015efficient} building on ideas, give a new efficient agnostic active learning algorithm that is both general and aggressive. Uncertainty based and would not scale to deep-learning scale
-
-\subsection{Active Deep Learning with CNNs}
-Recent deep learning one \cite{wang2016cost} worse than semi-supervised, actually semi supervised
-
-One important class is uncertainty based selection \cite{tong2001support,lewissequential,joshi2009multi} like entropy \cite{joshi2009multi} geometric metric for SVM \cite{tong2001support}
-
-\subsection{Semi-Supervised Deep Learning}
-
-Improved GAN \cite{salimans2016improved} \cite{ali} \cite{bigan} \cite{ladder}
+Recently, a similar discrete optimization based algorithm \cite{BerlindU15} with strong theoretical guarantees has been presented for k-nearest neighbors type of algorithms in domain shift setting. Although our theoretical analysis borrows many techniques from \cite{BerlindU15}, their results are only valid for k-nn and not applicable to deep learning setting. 
 
 
-\subsection{Problem of Subset Selection}
-Active domain adaptation based on distance \cite{BerlindU15} only for kNN classifier
+Recently an active learning for deep learning \cite{wang2016cost} framework has been presented as an effective semi-supervised active learning scheme. However, our analysis suggest that it can only outperform supervised algorithms and perform worse than a state-of-the-art semi-supervised algorithm used in conjunction with iid sampling.
 
-Very similar algorithm for a similar problem \cite{wei2013using} unsupervised subset selection
 
-Core-set for SVM \cite{tsang2005core}
 
-Core-set for k-Means and k-Medians \cite{har2005smaller}
+\noindent\textbf{Problem of Subset Selection}
+Closest literature to our paper is the problem of subset selection. The subset selection problem consider a dataset and try to choose a subset such that the resulting model will perform as close to the model trained on the entire dataset as possible. Indeed, it is simply the non-iterative version of the problem that we are interested in. Formally, this problem can be described as finding a core-set for a dataset. For specific learning algorithms, there are existing algorithm namely core-sets for SVM \cite{tsang2005core} and for k-Means and k-Medians \cite{har2005smaller}.
 
-Submodularity in hyphotesis(query space) for a set-cover problem \cite{guillory2010interactive}
-
-Submodularity specifically for k-NN and Naive Bayes \cite{wei2015submodularity}
-
-Stochastic extension of set-cover further used for active learning with noisy variables \cite{golovin2011adaptive}
-
-Use GP to model expected improvement \cite{kapoor2007active}.
-
-Extend uncertanity to information density \cite{li2013adaptive}
-
-Extending any bayesian optimization to multiple instance \cite{wang2016parallel}
-
-Extend SVM active learning combining a metric with diversity \cite{brinker2003incorporating}.
-
-Bayesian optimiziation to optimize future error \cite{roy2001toward}
+Most similar to our algorithm is unsupervised subset selection described in \cite{wei2013using}. Our algorithmic difference is using a slightly different formulation of facility location problem. Instead of the min-sum, we use minimax \cite{facility} form of the facility location. However \cite{wei2013using} only consider speech processing applications and only experiment in subset selection setup not in active learning. Moreover, we not only apply our algorithm to active deep learning with CNNs, we also theoretically analyze our algorithm in CNN setting.
  
+\noindent\textbf{Semi-Supervised Deep Learning}
+Our paper is also related to semi-supervised deep learning since we experiment the active learning both in fully-supervised and semi-supervised scheme. 
+One of the early algorithms was Ladder networks  \cite{ladder}. Recently, we have seen adversarial methods which can learn a data-distribution as a result of a two-player non-cooperative game \cite{salimans2016improved,gan_original,dcgan}. These methods are further extended to feature learning by \cite{ali, bigan}. Thanks to the defined two-player game, these methods can perform semi-supervised learning naturally. We use Ladder networks in our experiments since adversarial architectures are notoriously hard to train. However, our algorithm can readily be used in any semi-supervised setting.
+
 
 
 \section{Problem Definition}
-We are interested in $C$ class classification problem defined over a space $\mathcal{X}$ and a label space  $\mathcal{Y}=\{1,\ldots,C\}$. We also consider a loss function $l(\cdot,\cdot;\mathbf{w}):\mathcal{X}\times \mathcal{Y} \rightarrow \mathcal{R}$ parametrized over the hyphotesis class ($\mathbf{w}$), e.g.\ parameters of the deep learning algorithm.
+We are interested in $C$ class classification problem defined over a space $\mathcal{X}$ and a label space  $\mathcal{Y}=\{1,\ldots,C\}$. We also consider a loss function $l(\cdot,\cdot;\mathbf{w}):\mathcal{X}\times \mathcal{Y} \rightarrow \mathcal{R}$ parametrized over the hyphotesis class ($\mathbf{w}$), e.g.\ parameters of the deep learning algorithm. We also assume class-specific regression functions $\mu_c(\mathbf{x})=p(y=c|\mathbf{x})$ to be \mbox{$\lambda^\mu$-Lipschitz} continuous for each $c$.
 
-We consider a large collection of data points which are sampled iid over the space  $\mathcal{Z}=\mathcal{X}\times\mathcal{Y}$ as \mbox{$\{\mathbf{x}_i,y_i\}_{i \in [n]} \sim p_\mathcal{Z}$}. We further consider an initial pool of data-points chosen iid among them as \mbox{$\mathbf{s}^0=\{s(i) \in [n]\}_{i \in [m]}$}. 
+We consider a large collection of data points which are sampled iid over the space  $\mathcal{Z}=\mathcal{X}\times\mathcal{Y}$ as \mbox{$\{\mathbf{x}_i,y_i\}_{i \in [n]} \sim p_\mathcal{Z}$}. We further consider an initial pool of data-points chosen iid among them as \mbox{$\mathbf{s}^0=\{s^0(j) \in [n]\}_{j \in [m]}$}. 
 
 In our setting, an active learning algorithm has only access to $\{\mathbf{x}_i\}_{i \in [n]}$ and $\{y_{s(j)}\}_{j \in [m] }$. In other words, it can not see the labels of all data points except the initial sub-sampled pool. It is also given a budget $b$ of queries to ask to an oracle and a (semi)supervised learning algorithm $A_{\mathbf{s}}$ which outputs a set of parameters $\mathbf{w}$ given a labelled set $\mathbf{s}$. The active learning with a pool problem can simply be defined as
 \begin{equation}
@@ -185,9 +166,10 @@ There are a few differences between our formulation and the classical definition
 \begin{equation}
 \min_{\mathbf{s}^{k+1} : |\mathbf{s}^{k+1}| \leq b} E_{\mathbf{x},y \sim p_\mathcal{Z}} [l(\mathbf{x},y; A_{\mathbf{s}^{0} \cup \ldots, \mathbf{s}^{k+1}})]
 \end{equation}
-Although it is more realistic, analysis is typically trickier in such a setting. Hence, we consider the greedy version and try to solve the single round of labelling. In practice, we use multiple rounds by solving each single
+Although it is more realistic, analysis is typically trickier in such a setting. Hence, we consider the greedy version and try to solve the single round of labelling. In practice, we use multiple rounds by solving each single round. We also consider a semi-supervised algorithm instead of a supervised one. Although, the query methods are typically equally applicable in both cases, we empirically observed different behavior.
 
 \section{Limitations of the existing methods}
+\label{neg_res}
 \noindent\textbf{Hypothesis:} \emph{Deep learning algorithms results in an inaccurate estimate of uncertainty hence the uncertainty based methods fail.}
 
 This is very easy to experiment by simply replacing the uncertainty estimates in active learning with oracle ground truth loss. In other words, we replace the uncertainty with $l(\mathbf{x}_i,y_i,A_{\mathbf{s}^0})$. Hence, instead of sampling data points using estimated uncertainty, we sample them using the ground truth loss.
@@ -207,13 +189,13 @@ Hence as a negative result, the hypothesis is rejected. We need to search for a 
 In conclusion, we suspect that the critical property of an active learning algorithm in deep learning regime is covering the space efficiently. In the next section, we discuss such an algorithm.
 
 \section{Active Learning as a Space Covering}
-Using the heuristic of covering the space efficiently, here we explain our algorithm. Our algorithm is simply based on the \emph{k-Center} problem (min-max facility location problem \cite{cook}) which can be defined in our setting as;
+Using the heuristic of covering the space efficiently, here we explain our algorithm. Our algorithm is simply based on the \emph{k-Center} problem (minimax facility location problem \cite{facility}) which can be defined in our setting as;
 \begin{equation}
 \min_{\mathbf{s}^1} \max_i \min_{j \in \mathbf{s}^1 \cup \mathbf{s}^0} \Delta(\mathbf{x}_i,\mathbf{x}_j)
 \end{equation}
 which simply minimizes the maximum distance between any point and its nearest labelled neighbor. 
 
-Unfortunately this problem is NP-Hard \cite{cook}. However, it is possible to obtain a $2-OPT$ solution very efficiently using a greedy as Algorithm~\ref{alg:greedy}.
+Unfortunately this problem is NP-Hard \cite{cook}. However, it is possible to obtain a $2-OPT$ solution very efficiently using a greedy approach shown in  Algorithm~\ref{alg:greedy}.
 
 \begin{algorithm}[ht]
    \caption{k-Center-Greedy}
@@ -223,12 +205,13 @@ Unfortunately this problem is NP-Hard \cite{cook}. However, it is possible to ob
     \STATE Initialize $\mathbf{s}=\mathbf{s}^0$
    \REPEAT
    \STATE $u=\arg\max_{i \in [n] \setminus \mathbf{s}} \min_{j \in \mathbf{s}} \Delta(\mathbf{x}_i, \mathbf{x}_j)$
+   \STATE $\mathbf{s} = \mathbf{s} \cup \{u\}$
    \UNTIL {$|\mathbf{s}|<b+|\mathbf{s}^0|$}
    \STATE {\bfseries return} $\mathbf{s} \setminus \mathbf{s}^0$
 \end{algorithmic}
 \end{algorithm}
 
-Given any desired solution $\delta$, we can check its feasibility (i.e.\ is it $\min_{\mathbf{s}^1} \max_i \min_{j \in \mathbf{s}^1 \cup \mathbf{s}^0} \Delta(\mathbf{x}_i,\mathbf{x}_j) \leq \delta$) by constructing an mixed integer program and checking is it feasible or not. Hence, a straight-forward algorithm to choose this k-Center problem is doing a binary search between the result of the greedy algorithm and its half since that region guaranteed to include the optimal solution. By constructing this algorithm, we also consider one of the weakness of k-Center algorithm -robustness-. To make the k-Center problem robust, we assume a upper on the number of outliers $\Xi$ such that our algorithm can choose to not cover at most $\Xi$ data points. This mixed integer program can be written as combination of constraints:
+Given any desired solution $\delta$, we can check its feasibility (i.e.\ is it $\min_{\mathbf{s}^1} \max_i \min_{j \in \mathbf{s}^1 \cup \mathbf{s}^0} \Delta(\mathbf{x}_i,\mathbf{x}_j) \leq \delta$) by constructing an mixed integer program and checking its feasibility. Hence, a straight-forward algorithm to choose this k-Center problem is doing a binary search between the result of the greedy algorithm and its half since that region guaranteed to include the optimal solution. By constructing this algorithm, we also handle one of the weakness of k-Center algorithm -robustness-. To make the k-Center problem robust, we assume a upper limit on the number of outliers $\Xi$ such that our algorithm can choose to not cover at most $\Xi$ data points. This mixed integer program can be written as:
 
 \begin{equation}
 \begin{aligned}
@@ -257,7 +240,8 @@ We solve this mixed integer program using Gurobi\cite{gurobi} software toolbox. 
    \label{alg:bin}
 \begin{algorithmic}
    \STATE {\bfseries Input:} data $\mathbf{x}_i$, existing pool $\mathbf{s}^0$, budget $b$ and outlier bound $\Xi$
-   \STATE {\bfseries Initialize} $\delta_{2-OPT}$ = k-Center-Greedy($\mathbf{x}_i, \mathbf{s}^0, b$)
+   \STATE {\bfseries Initialize} $\mathbf{s}_g =$ k-Center-Greedy($\mathbf{x}_i, \mathbf{s}^0, b$)
+   \STATE $\delta_{2-OPT} = \max_j \min_{i \in \mathbf{s}_g} \Delta(\mathbf{x}_i,\mathbf{x}_j)$ 
    \STATE $lb=\frac{\delta_{2-OPT}}{2}$, $ub=\delta_{2-OPT}$
    \REPEAT
    \IF {$Feasible(b, \mathbf{s}^0,\frac{lb+ub}{2},\Xi)$}
@@ -269,7 +253,9 @@ We solve this mixed integer program using Gurobi\cite{gurobi} software toolbox. 
       \STATE {\bfseries return} $\{i\ st.\ u_i=1\}$
 \end{algorithmic}
 \end{algorithm}
-\section{Semi-Supervised Active Learning}
+\section{Implementation Details}
+The distance function, semi-supervised setup etc.
+
 \section{Experimental Results}
 
 \begin{figure*}
@@ -318,53 +304,77 @@ We solve this mixed integer program using Gurobi\cite{gurobi} software toolbox. 
 \begin{figure}[h]
 \includegraphics[width=\columnwidth]{placeholder1.jpg}
 \caption{Effect of approximation in set-cover problem.}
-\label{mip}
 \end{figure}
 
 
 \begin{figure}[h]
 \includegraphics[width=\columnwidth]{placeholder1.jpg}
 \caption{Test error vs $\gamma$}
-\label{mip}
 \end{figure}
+
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed luctus ex ac venenatis aliquam. Nulla tincidunt lacinia urna id mattis. Donec at ipsum et turpis imperdiet viverra. Etiam mauris leo, sodales iaculis maximus id, laoreet in quam. Quisque tincidunt interdum pellentesque. Cras ac odio sed urna luctus rhoncus et eu dui. Sed sem sapien, semper quis finibus nec, laoreet ac ex. Proin placerat, risus non blandit interdum, est felis condimentum erat, ac fermentum purus urna ac lacus. Curabitur sagittis turpis eu diam sodales imperdiet. Integer congue sed lacus nec tincidunt. Nam sit amet tellus quis orci dignissim aliquam condimentum sit amet risus. Etiam lectus erat, viverra eget euismod eu, tempus quis ipsum. Fusce imperdiet a purus et mollis. Morbi vulputate ante ut odio ornare, sit amet pretium ligula suscipit. Integer eu nulla cursus ligula ultrices fermentum id ut tellus.
 
 
 
 
 \section{Analysis of Algorithm}
+In this section, we analyze our algorithm in terms of generalization error. Our analysis mostly uses geometric arguments based on the assumption of Lipschitz continuity of loss function and regression function. The behavior we want to analyze is the relationship between $\frac{1}{m}\sum_j l(\mathbf{x}_{s(i)},y_{s(i)},A_{\mathbf{s}})$ and $E_{\mathbf{x},y \sim p_\mathcal{Z}}[l(\mathbf{x},y,A_{\mathbf{s}})]$.  In other words, we are interested in the relationship of empirical loss over the selected samples and the expected loss in unseen examples. We analyze these behavior in two separate parts; first, we analyze the relationship between expected loss and the empirical loss over entire dataset ($\frac{1}{n}\sum_i l(\mathbf{x}_i,y_i,A_\mathbf{s})$). Secondly, we analyze the relationship between the loss over entire dataset and empirical loss over the selected samples.
 
-\begin{lemma}
-Softmax function defined over $C$ class is  Lipschitz continuous with $\lambda=\frac{\sqrt{C-1}}{C}$
-\end{lemma}
-
-\begin{lemma}
-A convolutional neural network with $n_c$ convolutional (with max-pool and ReLU) and $n_{fc}$ fully connected layers defined over C class with loss function defined as 2-norm between softmax and class probability is $(\mathcal{N}(\gamma/C,\mathcal{Z},|\cdot|_2),  \frac{\sqrt{C-1}}{C} \alpha^{n_c+n_{fc}})$ robust.
-\end{lemma}
-
+First, we give the following theorem as an straight-forward extension of the robustness property from \cite{robust}. We give a generalization bound using the Lipschitz continuity of a loss function.
 
 \begin{theorem}
-Given $n$ i.i.d. samples drawn from $p(\mathbf{x},y)$ as $\{\mathbf{x}_i,y_i\}_{i\in[n]}$, and $m$ points $\{ s(i) \in [N]\}_{\i \in [m]}$. If,
-\begin{enumerate}
-\item  $\{x_{s(i)}\}_{i \in [m]}$ is $\bar{\epsilon}-cover$ for  $\{\mathbf{x}_i\}_{i\in[n]}$
-\item Algorithm $A_s$ is $(K,\epsilon(s))$ robust
-\item Loss function is $\lambda$-Lipschitz continous
-\item $l_{emp}(A_s,x)=0\quad \forall x \in s$
-\end{enumerate}
-With probability at least $(1-\gamma)$,
+Given $n$ i.i.d. samples drawn from $p_\mathcal{Z}$ as $\{\mathbf{x}_i,y_i\}_{i\in[n]}$. If loss function $l(\cdot,y,\mathbf{w})$ is $\lambda^l$-Lipschitz continuous for all $y, \mathbf{w}$, bounded by $L$ and $\mathcal{X}x\mathcal{Y}$ has a covering number $N_{\epsilon}(\mathcal{X},|\cdot|_2)=K$; with probability at least $(1-\gamma)$,
 \[
-E[l(A_s,z)] \leq \frac{n-m}{n} \lambda \tilde{\epsilon} + \epsilon(s) + L \sqrt{\frac{2K\ln 2 + 2\ln (1/\gamma)}{n}}
+\begin{aligned}
+&\left|E_{\mathbf{x},y \sim p_\mathcal{Z}}[l(\mathbf{x},y, A_\mathbf{s})] - \frac{1}{n}\sum_i l(\mathbf{x}_i,y_i,A_\mathbf{s})\right| \\
+ &\hspace{3cm}\leq  \lambda^l \epsilon + L \sqrt{\frac{2K\ln 2 + 2\ln (1/\gamma)}{n}}\\
+\end{aligned}
 \]
 \label{mainthm}
 \end{theorem}
 
+Proof of this theorem is given in the supplementary materials and explain the generalization properties of any machine learning algorithm with Lipschitz continuous loss functions. This theorem only applicable to the CNNs if they are Lipschitz continuous. Hence, we also show that the CNNs with max-pool and restricted liner units as non-linearity is Lipschitz continuous for $l_2$ loss with the following lemma.
 
+\begin{lemma}
+A convolutional neural network with $n_c$ convolutional (with max-pool and ReLU) and $n_{fc}$ fully connected layers defined over C class with loss function defined as 2-norm between softmax and class probability is $\left(\frac{\sqrt{C-1}}{C} \alpha^{n_c+n_{fc}}\right)$-Lipschitz.
+\end{lemma}
 
-\clearpage
+Here, $\alpha$ is the maximum over sum of weights in a single layer. Although, it looks unbounded, it can be made arbitrarily small without changing loss function behavior (ie. the CNN will not switch any label) since dividing all weights with a scalar will not switch any labels.
 
-\bibliography{active_adversarial}
+We further analyze the behavior of loss over the dataset in the setting where trained CNN reaches to a $0$ training error. Although, it looks restrictive, it is very feasible since CNNs are very effective because of their large parameter space. This can also be easily enforced by simply converting average loss into maximal loss via \cite{maximal_loss}. We did not need this trick since our CNNs reached 0 training error in all experiments. We show that the loss over the entire dataset can be bounded by the Bayes optimal classifier and the result of the discrete optimization problem.
+
+\begin{theorem}
+Given $n$ i.i.d. samples drawn from $p_\mathcal{Z}$ as $\{\mathbf{x}_i,y_i\}_{i\in[n]}$, and $m$ chosen points $\{ s(i) \in [N]\}_{\i \in [m]}$. If loss function $l(\cdot,y,\mathbf{w})$ is $\lambda^l$-Lipschitz continuous for all $y, \mathbf{w}$, regression function is $\lambda^\eta$-Lipschitz, $\{ s(i) \in [N]\}_{\i \in [m]}$ is $\delta$ cover of $\{\mathbf{x}_i,y_i\}_{i\in[n]}$, $l(\mathbf{x}_{s(j)},y_{s(j)},A_\mathbf{S})=0\quad \forall j \in [m]$; with probability at least $1-\gamma$,
+\begin{small}
+\[
+\frac{1}{n}\sum_i l(\mathbf{x}_i,y_i,A_\mathbf{s}) \leq \mathcal{L}_{[n]} (h^\star) +\delta(\lambda^l + 2 \lambda^{\eta}) + 
+\sqrt{\frac{\log(1/1-\gamma)}{2n}}
+\]
+\end{small}
+where $\mathcal{L}_{[n]} (h^\star)$ is the loss of the Bayes-optimal classifier.
+\label{mainthm2}
+\end{theorem}
+
+It can easily be shown that; in this setting, $\lim_{n \rightarrow \infty} \frac{1}{n}\sum_i l(\mathbf{x}_i,y_i,A_\mathbf{s}) =   \mathcal{L}_{[n]} (h^\star) +\delta(\lambda^l + 2 \lambda^{\eta})$. Here, $\delta$ decreases when $m$ increases. Hence, the remaining step is showing that for any desired $\delta$ value, there exist a finite set of points which need to be queried. In other words, we need to show the finite query property for a desired error-rate. This is straightforward since our data points are coming from a compact space; hence, there exist a finite sub-cover to any union of open sets. We give the following Corollary without proof showing this;
+
+\begin{cor}
+Given $n$ i.i.d. samples drawn from $p_\mathcal{Z}$ as $\{\mathbf{x}_i,y_i\}_{i\in[n]}$, and a desired error rate $\rho$. If loss function $l(\cdot,y,\mathbf{w})$ is $\lambda^l$-Lipschitz continuous for all $y, \mathbf{w}$, regression function is $\lambda^\eta$-Lipschitz, there exist a finite subset $\mathbf{s}$ with cardinality m such that any CNN achieving $0$ error over $\{\mathbf{x}_{s(j)},y_{s(j)}\}_{j \in [m]}$ achieve the following with probability $1$.
+\[
+\lim_{n \rightarrow \infty} \frac{1}{n}\sum_i l(\mathbf{x}_i,y_i) \leq \mathcal{L}_{[n]} (h^\star) +\rho
+\]
+where $\mathcal{L}_{[n]} (h^\star)$ is the loss of the Bayes-optimal classifier.
+\label{maincor}
+\end{cor}
+
+In summary, we show that CNNs have Lipschitz continuous loss functions, making algorithm generalizes unseen images. If the underlying data distribution has Lipschitz continuous regression function as well, we can show under reasonable assumptions, a small subset of dataset is enough to be labelled as long as it covers the space efficiently. Hence, our algorithm is based on the optimization problem of covering this space as efficient as possible via minimizing $\epsilon(\lambda^l + 2 \lambda^{\eta})$ which we show as a bound over the loss of the dataset. Hence, our algorithm implicitly minimizes the error over the entire dataset. We also show that it is possible to reach any desired generalization error with finite number of queries.
+
+\section{Conclusion}
+Suspendisse pharetra erat sapien, sit amet porta mi cursus congue. Sed pulvinar justo in metus sollicitudin mollis. Mauris sagittis dui vitae arcu gravida, et lacinia mauris ultrices. Sed faucibus nibh ac velit vehicula, ac molestie tellus mattis. Duis nec tellus erat. Aliquam pellentesque nibh quis ex blandit euismod porta id leo. In facilisis finibus nisl, rhoncus dignissim dui lobortis sit amet. Nulla pellentesque, nisi ac porta consectetur, lorem nisl rhoncus dolor, sed ornare mi nisi maximus magna. Integer nunc ipsum, lobortis vel diam in, vestibulum iaculis felis. Etiam viverra fermentum scelerisque. Praesent facilisis ultrices magna, sit amet dignissim velit rutrum tempor. Nunc in diam elit. Vestibulum eget molestie erat. 
+
+\bibliography{active_adversarial} 
 \bibliographystyle{icml2017}
 
-\clearpage
 
 \begin{proof}
 It is easy to show that for any differentiable function $f:\mathbb{R}^n\rightarrow\mathbb{R}^m$,
@@ -422,34 +432,82 @@ Hence,
 We will start with
 \[
 \begin{aligned}
-&\left|E[l(A_s,z)] - \frac{1}{n}\sum_i l(A_s,x_i) \right| \\
-&\leq \left|\sum_{j} E[l(A_s,z)|z \in C_j] \mu_{j} -  \sum_{j} E[l(A_s,z)|z \in C_j] \frac{|N_j|}{n} \right| \\
- &+  \left|\sum_{j} E[l(A_s,z)|z \in C_j] \frac{|N_j|}{n}  - \frac{1}{n}\sum_i l(A_s,x_i)\right| \\
-  &\leq\left|\sum_{j} E[l(A_s,z)|z \in C_j] (\mu_{j} -   \frac{|N_j|}{n}) \right|\\
- &+\frac{1}{n} \left|\sum_j \sum_{i \in N_j} E[l(A_s,z)|z \in C_j]  - l(A_s,x_i)\right| \\
-   &\leq \left|\sum_{j} E[l(A_s,z)|z \in C_j] (\mu_{j} -   \frac{|N_j|}{n})\right| +\epsilon(s)  \\
+&\left|E[l(x,y)] - \frac{1}{n}\sum_i l(x_i,y_i) \right| \\
+&\leq \left|\sum_{j} E[l(x,y)| (x,y) \in C_j] \mu_{j} -  \sum_{j} E[l(x,y)| (x,y) \in C_j] \frac{|N_j|}{n} \right| \\
+ &+  \left|\sum_{j} E[l(x,y)| (x,y) \in C_j] \frac{|N_j|}{n}  - \frac{1}{n}\sum_i l(x_i,y_i)\right| \\
+  &\leq\left|\sum_{j} E[l(x,y)| (x,y) \in C_j] (\mu_{j} -   \frac{|N_j|}{n}) \right|\\
+ &+\frac{1}{n} \left|\sum_j \sum_{i \in N_j} E[l(x,y)| (x,y) \in C_j]  - l(x_i,y_i)\right| \\
+   &\leq \left|\sum_{j} E[l(x,y)|z \in C_j] (\mu_{j} -   \frac{|N_j|}{n})\right| + \lambda^l \epsilon^s  \\
  \end{aligned}
 \]
-Now, we will use the zero-loss of the classifier with Lipschitz continuity as;
-\[
-\begin{aligned}
-\left|\frac{1}{n}\sum_i l(A_s,x_i) \right| &= \left|\frac{1}{n}\sum_{j \notin {s(i)}_{i\in [M]}} l(A_s,x_i)  \right| \\
-&\leq  \frac{1}{n}\sum_{j \notin {s(i)}_{i\in [M]}} \lambda  \left| \mathbf{x}_i - \mathbf{x}_k\right | \leq \frac{n-m}{n} \lambda \tilde{\epsilon}
-\end{aligned}
-\]
-Combining both,
-\[
-\begin{aligned}
-&E[l(A_s,z)] \leq  \left|E[l(A_s,z)] - \frac{1}{n}\sum_i l(A_s,x_i) \right|  \\ &+ \left|\frac{1}{n}\sum_i l(A_s,x_i) - \frac{1}{m}\sum_i l(A_s,x_{s(i)}) \right| \\
-&\leq \left|\sum_{j} E[l(A_s,z)|z \in C_j] (\mu_{j} -   \frac{|N_j|}{n})\right| +\epsilon(s) + \frac{n-m}{n} \lambda \tilde{\epsilon}
-\end{aligned}
-\]
+%Now, we will use the zero-loss of the classifier with Lipschitz continuity as;
+%\[
+%\begin{aligned}
+%\left|\frac{1}{n}\sum_i l(A_s,x_i) \right| &= \left|\frac{1}{n}\sum_{j \notin {s(i)}_{i\in [M]}} l(A_s,x_i)  \right| \\
+%&\leq  \frac{1}{n}\sum_{j \notin {s(i)}_{i\in [M]}} \lambda  \left| \mathbf{x}_i - \mathbf{x}_k\right | \leq \frac{n-m}{n} \lambda \tilde{\epsilon}
+%\end{aligned}
+%\]
+%Combining both,
+%\[
+%\begin{aligned}
+%&E[l(A_s,z)] \leq  \left|E[l(A_s,z)] - \frac{1}{n}\sum_i l(A_s,x_i) \right|  \\ &+ \left|\frac{1}{n}\sum_i l(A_s,x_i) - \frac{1}{m}\sum_i l(A_s,x_{s(i)}) \right| \\
+%&\leq \left|\sum_{j} E[l(A_s,z)|z \in C_j] (\mu_{j} -   \frac{|N_j|}{n})\right| +\epsilon(s) + \frac{n-m}{n} \lambda \tilde{\epsilon}
+%\end{aligned}
+%\]
 \end{small}
 We finally use Breteganolle-Huber-Carol inequality (\emph{cf} Proposition A6.6 of \cite{wellner}):
 \[
-E[l(A_s,z)] \leq \frac{n-m}{n} \lambda \tilde{\epsilon} + \epsilon(s) + L \sqrt{\frac{2K\ln 2 + 2\ln (1/\gamma)}{n}}
+\left| E[l(x,y)] - \frac{1}{n}\sum_i l(x_i,y_i) \right| \leq \lambda^l \epsilon^s + L \sqrt{\frac{2K\ln 2 + 2\ln (1/\gamma)}{n}}
 \]
 \end{proof}
+
+\begin{lemma}
+For $\mathbf{x}_i, \mathbf{x}_j$ such that $|\mathbf{x}_i -\mathbf{x}_j|\leq \epsilon$ and $\eta_c(x)$ is $\lambda^\eta$-Lipschitz and $l(\cdot,y)$ is $\lambda^l$-Lipschitz,
+\[
+E[|l(\mathbf{x_2},y_2) -l(\mathbf{x_1},y_1)|] \leq  \epsilon(\lambda^l + 2 \lambda^{\eta}) + E[l(h^\star)]
+\]
+\end{lemma}
+\begin{proof}
+Without loss of generality, assume $y_1=c$, then 
+\[
+\begin{aligned}
+p(y_1 \neq y_2)&=p(y_2 \neq c)\\
+&= p_{y_2 \sim \eta_c(\mathbf{x}_2)}(y_2\neq c)
+\\&\leq p_{y_2 \sim \eta_c(\mathbf{x}_1)}(y_2 \neq c) + |\eta_c(\mathbf{x}_1) - \eta_c(\mathbf{x}_2)|\\
+&\leq 1 - \eta_{y_1}(\mathbf{x_1}) + \lambda^{\eta}\epsilon
+\end{aligned}
+\]
+then we use this in the following
+\[
+\begin{aligned}
+&E[|l(\mathbf{x_2},y_2) -l(\mathbf{x_1},y_1)|] \\ &= E[|l(\mathbf{x_2},y_2) -l(\mathbf{x_1},y_1)||y_1=y_2] p(y_1=y_2) \\ &\quad+ E[|l(\mathbf{x_2},y_2) -l(\mathbf{x_1},y_1)||y_1\neq y_2] p(y_1 \neq y_2) \\
+&\leq \lambda^l \epsilon p(y_1=y_2) + 2 p(y_1 \neq y_2)\\
+&\leq \lambda^l \epsilon + 2(1 - \eta_{y_1}(\mathbf{x_1}) + \lambda^{\eta}\epsilon) \\
+&= \epsilon(\lambda^l + 2 \lambda^{\eta}) + E[l(h^\star)]
+\end{aligned}
+\]
+\end{proof}
+
+\begin{proof}
+We need to bound the empirical risk of the unlabelled images,
+\[
+\begin{aligned}
+E[ l(\mathbf{x}_i,y_i)] &= E[ l(\mathbf{x}_i,y_i) - l(\mathbf{x}_k,y_k) ] \\ 
+&\leq \epsilon(\lambda^l + 2 \lambda^{\eta}) + E[l(h^\star)]
+\end{aligned}
+\]
+We further use the Hoeffding's Bound and conclude that with probability at least $1 - \delta$,
+\[
+\frac{1}{n}\sum_i l(\mathbf{x}_i,y_i) \leq E[l(h^\star)] +\epsilon(\lambda^l + 2 \lambda^{\eta}) + 
+\sqrt{\frac{\log(1/1-\delta)}{2n}}
+%\frac{\log(1/(1-\delta)){2n}
+\]
+\end{proof}
+
+\begin{lemma}
+Softmax function defined over $C$ class is  Lipschitz continuous with $\lambda=\frac{\sqrt{C-1}}{C}$
+\end{lemma}
+
 
 \begin{cor}
 If the conditions in Theorem \ref{mainthm} satisfied except $4$ and $l_{emp}(A_s,x)=0\quad \forall x \in \overline{s}$, with probability at least $(1-\gamma)$,
@@ -468,6 +526,5 @@ E[l(A_s,z)] \leq \frac{n-|\overline{s}|}{n} \lambda \tilde{\epsilon} + \epsilon(
 \end{aligned}
 \]
 \end{proof}
-
 
 \end{document} 
