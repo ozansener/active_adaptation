@@ -52,12 +52,12 @@
 
 % The \icmltitle you define below is probably too long as a header.
 % Therefore, a short form for the running title is supplied here:
-\icmltitlerunning{ Active Deep Learning}
+\icmltitlerunning{ Active Learning}
 
 \begin{document} 
 
 \twocolumn[
-\icmltitle{ Active Deep Learning}
+\icmltitle{ Active Learning for Convolutional Neural Networks}
 
 % It is OKAY to include author information, even for blind
 % submissions: the style file will automatically remove it for you
@@ -103,7 +103,7 @@
 %\footnotetext{hi}
 
 \begin{abstract} 
-Abstract.
+Suspendisse pharetra erat sapien, sit amet porta mi cursus congue. Sed pulvinar justo in metus sollicitudin mollis. Mauris sagittis dui vitae arcu gravida, et lacinia mauris ultrices. Sed faucibus nibh ac velit vehicula, ac molestie tellus mattis. Duis nec tellus erat. Aliquam pellentesque nibh quis ex blandit euismod porta id leo. In facilisis finibus nisl, rhoncus dignissim dui lobortis sit amet. Nulla pellentesque, nisi ac porta consectetur, lorem nisl rhoncus dolor, sed ornare mi nisi maximus magna. Integer nunc ipsum, lobortis vel diam in, vestibulum iaculis felis. Etiam viverra fermentum scelerisque. Praesent facilisis ultrices magna, sit amet dignissim velit rutrum tempor. Nunc in diam elit. Vestibulum eget molestie erat. 
 \end{abstract} 
 
 \section{Introduction}
@@ -126,33 +126,31 @@ para4: we analyze everything empirically in supervised and semi-supervised. and 
 There are many areas of active research related to our work. We divide them in the following categories and discuss them separately. 
 
 \noindent\textbf{Active Learning}
-Active learning has been widely studies and most of the early work can be found in the classical survey \cite{settles2010active}. It discusses many query strategies like information theoretical methods \cite{mackay1992information} and ensemble approaches \cite{mccallumzy1998employing, freund1997selective}. Bayesian methods typically use a non-parametric model like Gaussian process to model expected improvement of each label \cite{kapoor2007active} or expected error after labels \cite{roy2001toward}. They are typically used as per instance selection, however, they can be extended to batch models to choose multiple instances to label \cite{wang2016parallel}. These approaches are typically not applicable to deep learning scenarios since they do not scale well. Ensemble methods are also not applicable to deep learning because of large parameter space of deep learning algorithms. Such ensemble methods requires intractable number of networks to be trained to be effective in such a large dimensional parameter space.
+Active learning has been widely studies and most of the early work can be found in the classical survey \cite{settles2010active}. It discusses most query strategies like information theoretical methods \cite{mackay1992information} and ensemble approaches \cite{mccallumzy1998employing, freund1997selective}. We will try to review the literature coming after \cite{settles2010active}. 
 
-One important class is uncertainty based selection \cite{tong2001support,lewissequential,joshi2009multi,li2013adaptive} like entropy \cite{joshi2009multi} geometric metric for SVM \cite{tong2001support,brinker2003incorporating} etc. We present an empirical result in Section~\ref{neg_res} which motivated us to move away from such techniques. We show that even in the oracle case, such algorithms have very limited accuracy improvement. Specifically, in semi-supervised case they even sometime decrease the accuracy. We discuss these points in detail in Section~\ref{neg_res}.
+Bayesian active learning methods typically use a non-parametric model like Gaussian process to estimate the expected improvement of each label \cite{kapoor2007active} or expected error after labels \cite{roy2001toward}. These approaches are typically not applicable to deep learning scenarios since they do not scale to large-scale datasets. Ensemble methods are also not applicable to deep learning because of large parameter space of neural networks. Such ensemble methods requires intractable number of networks to be trained to be effective in a very large dimensional parameter space.
 
-More recently, we have seen optimization based approaches which can trade-off uncertainty and diversity in order to obtain diverse set of high likely negatives. Elhamifar~et al.  \cite{elhamifar2013convex} design a discrete optimization problem for this purpose and uses its convex surrogate. However, the algorithm uses $n^2$ variables where $n$ is the number of data points hence do not scale to large-datasets of interest in deep learning. There are also many discrete optimization based active algorithms designed for specific class of machine learning algorithms like k-nearest neighbors and naive Bayes \cite{wei2015submodularity}. Even in general case, one can design a set-cover algorithm to efficiently cover the hyphotesis space using sub-modularity \cite{guillory2010interactive}. It can even be extended to noisy labels with stochastic extension of the set-cover problem \cite{golovin2011adaptive}. Our algorithm can be considered in this class; however, we do not use the uncertainty information due to the empirical result we present in the Section~\ref{neg_res}. 
+One important class is uncertainty based selection \cite{tong2001support,lewissequential,joshi2009multi,li2013adaptive} which tries to find hard-negatives using heuristics like highest entropy \cite{joshi2009multi}, or geometric distance to decision boundaries \cite{tong2001support,brinker2003incorporating}. We present an empirical result in Section~\ref{neg_res} which motivated us to move away from such techniques. We show that even in the oracle case, such algorithms have very limited accuracy improvement. Indeed, we even observed a drop in the accuracy for the case of semi-supervision when oracle uncertainty is used. 
 
+More recently, we have seen optimization based approaches which can trade-off uncertainty and diversity in order to obtain diverse set of high likely hard-negatives. Elhamifar~et al.  \cite{elhamifar2013convex} design a discrete optimization problem for this purpose and uses its convex surrogate. However, the algorithm uses $n^2$ variables where $n$ is the number of data points. Hence, it does not scale to deep learning case. There are also many discrete optimization based active learning algorithms designed for specific class of machine learning algorithms like k-nearest neighbors and naive Bayes \cite{wei2015submodularity}. Even in algorithm agnostic case, one can design a set-cover algorithm to efficiently cover the hyphotesis space using sub-modularity \cite{guillory2010interactive, golovin2011adaptive}. Our algorithm can be considered in this class; however, we do not use the uncertainty information due to the empirical result we present in the Section~\ref{neg_res}. Our algorithm is also the first one which is applied to deep learning and/or convolutional neural networks.
 
-Recently, a similar discrete optimization based algorithm \cite{BerlindU15} with strong theoretical guarantees has been presented for k-nearest neighbors type of algorithms in domain shift setting. Although our theoretical analysis borrows many techniques from \cite{BerlindU15}, their results are only valid for k-nn and not applicable to deep learning setting. 
+Recently, a discrete optimization based algorithm \cite{BerlindU15} similar to us with strong theoretical guarantees has been presented for k-nearest neighbors(k-NN) type of algorithms in domain shift setting. Although our theoretical analysis borrows many techniques from \cite{BerlindU15}, their results are only valid for k-NN and not applicable to convolutional neural networks. 
 
-
-Recently an active learning for deep learning \cite{wang2016cost} framework has been presented as an effective semi-supervised active learning scheme. However, our analysis suggest that it can only outperform supervised algorithms and perform worse than a state-of-the-art semi-supervised algorithm used in conjunction with iid sampling.
-
+To the best-of-our-knowledge, only active learning algorithm designed for deep learning is the framework presented in \cite{wang2016cost}. It is a heuristic based transductive algorithm which assign labels to data-points having high-confidence directly and query labels for the ones having low confidence. We discuss the limitations of \cite{wang2016cost} in detail in Section~\ref{sec:exp}.
 
 
 \noindent\textbf{Problem of Subset Selection}
-Closest literature to our paper is the problem of subset selection. The subset selection problem consider a dataset and try to choose a subset such that the resulting model will perform as close to the model trained on the entire dataset as possible. Indeed, it is simply the non-iterative version of the problem that we are interested in. Formally, this problem can be described as finding a core-set for a dataset. For specific learning algorithms, there are existing algorithm namely core-sets for SVM \cite{tsang2005core} and for k-Means and k-Medians \cite{har2005smaller}.
+Closest literature to our work is the problem of subset selection. The subset selection problem considers a dataset and try to choose a subset of it such that the resulting model will perform as close to the model trained on the entire dataset as possible. Formally, this problem can be described as finding a core-set for a dataset such that a model learned over the subset will perform very close to a model learned over the entire dataset. For specific learning algorithms, there are methods like core-sets for SVM \cite{tsang2005core} and core-sets for k-Means and k-Medians \cite{har2005smaller}. However, there is no such method for CNNs.
 
-Most similar to our algorithm is unsupervised subset selection described in \cite{wei2013using}. Our algorithmic difference is using a slightly different formulation of facility location problem. Instead of the min-sum, we use minimax \cite{facility} form of the facility location. However \cite{wei2013using} only consider speech processing applications and only experiment in subset selection setup not in active learning. Moreover, we not only apply our algorithm to active deep learning with CNNs, we also theoretically analyze our algorithm in CNN setting.
+Most similar to our algorithm is unsupervised subset selection described in \cite{wei2013using}. It uses a facility location in order to find a diverse subset covering the space. Our algorithmic difference is using a slightly different formulation of facility location problem. Instead of the min-sum, we use minimax \cite{facility} form of the facility location. More importantly, we apply this algorithm the first time to the problem of active learning, we also analyze this algorithm in detail both empirically and theoretically for the problem of active learning with CNNs.
+
  
 \noindent\textbf{Semi-Supervised Deep Learning}
 Our paper is also related to semi-supervised deep learning since we experiment the active learning both in fully-supervised and semi-supervised scheme. 
-One of the early algorithms was Ladder networks  \cite{ladder}. Recently, we have seen adversarial methods which can learn a data-distribution as a result of a two-player non-cooperative game \cite{salimans2016improved,gan_original,dcgan}. These methods are further extended to feature learning by \cite{ali, bigan}. Thanks to the defined two-player game, these methods can perform semi-supervised learning naturally. We use Ladder networks in our experiments since adversarial architectures are notoriously hard to train. However, our algorithm can readily be used in any semi-supervised setting.
-
-
+One of the early semi-supervised convolutional neural network algorithms was Ladder networks \cite{ladder}. Recently, we have seen adversarial methods which can learn a data-distribution as a result of a two-player non-cooperative game \cite{salimans2016improved,gan_original,dcgan}. These methods are further extended to feature learning by \cite{ali, bigan}. Thanks to the defined two-player game, these methods can perform semi-supervised learning very naturally. We use Ladder networks in our experiments since adversarial architectures are notoriously hard to train. Our algorithm is agnostic to used semi-supervised learning algorithm and can readily be used in any semi-supervised or supervised setting.
 
 \section{Problem Definition}
-We are interested in $C$ class classification problem defined over a space $\mathcal{X}$ and a label space  $\mathcal{Y}=\{1,\ldots,C\}$. We also consider a loss function $l(\cdot,\cdot;\mathbf{w}):\mathcal{X}\times \mathcal{Y} \rightarrow \mathcal{R}$ parametrized over the hyphotesis class ($\mathbf{w}$), e.g.\ parameters of the deep learning algorithm. We also assume class-specific regression functions $\mu_c(\mathbf{x})=p(y=c|\mathbf{x})$ to be \mbox{$\lambda^\mu$-Lipschitz} continuous for each $c$.
+In this section, we formally define the problem of active learning by setting-up the notation for rest of the paper. We are interested in $C$ class classification problem defined over a space $\mathcal{X}$ and a label space  $\mathcal{Y}=\{1,\ldots,C\}$. We also consider a loss function $l(\cdot,\cdot;\mathbf{w}):\mathcal{X}\times \mathcal{Y} \rightarrow \mathcal{R}$ parametrized over the hyphotesis class ($\mathbf{w}$), e.g.\ parameters of the deep learning algorithm. We also assume class-specific regression functions $\eta_c(\mathbf{x})=p(y=c|\mathbf{x})$ to be \mbox{$\lambda^\eta$-Lipschitz} continuous for each $c$.
 
 We consider a large collection of data points which are sampled iid over the space  $\mathcal{Z}=\mathcal{X}\times\mathcal{Y}$ as \mbox{$\{\mathbf{x}_i,y_i\}_{i \in [n]} \sim p_\mathcal{Z}$}. We further consider an initial pool of data-points chosen iid among them as \mbox{$\mathbf{s}^0=\{s^0(j) \in [n]\}_{j \in [m]}$}. 
 
@@ -189,11 +187,12 @@ Hence as a negative result, the hypothesis is rejected. We need to search for a 
 In conclusion, we suspect that the critical property of an active learning algorithm in deep learning regime is covering the space efficiently. In the next section, we discuss such an algorithm.
 
 \section{Active Learning as a Space Covering}
-Using the heuristic of covering the space efficiently, here we explain our algorithm. Our algorithm is simply based on the \emph{k-Center} problem (minimax facility location problem \cite{facility}) which can be defined in our setting as;
+Based on the empirical observation that hard-negatives typically are not critical for learning CNNs, we base our algorithm on space-cover. We hyphotesize that a good way to choose points to be labelled is trying to cover the unsupervised datapoints as good as possible. For example, consider a set of balls with radius $\delta$ centered at points with labels covering the unsupervised dataset. Intuitively, smaller $\delta$ should indicates a better the performance. Hence, we try to choose subset of points which can minimize $\delta$ as an active learning strategy. 
+
+Our algorithm is simply based on the \emph{k-Center} problem (minimax facility location problem \cite{facility}) which can intuitively be defined as; choosing $k$ center points such that the largest distance between a data point and its nearest center is minimized. Formally, we are trying to solve;
 \begin{equation}
 \min_{\mathbf{s}^1} \max_i \min_{j \in \mathbf{s}^1 \cup \mathbf{s}^0} \Delta(\mathbf{x}_i,\mathbf{x}_j)
 \end{equation}
-which simply minimizes the maximum distance between any point and its nearest labelled neighbor. 
 
 Unfortunately this problem is NP-Hard \cite{cook}. However, it is possible to obtain a $2-OPT$ solution very efficiently using a greedy approach shown in  Algorithm~\ref{alg:greedy}.
 
@@ -211,7 +210,7 @@ Unfortunately this problem is NP-Hard \cite{cook}. However, it is possible to ob
 \end{algorithmic}
 \end{algorithm}
 
-Given any desired solution $\delta$, we can check its feasibility (i.e.\ is it $\min_{\mathbf{s}^1} \max_i \min_{j \in \mathbf{s}^1 \cup \mathbf{s}^0} \Delta(\mathbf{x}_i,\mathbf{x}_j) \leq \delta$) by constructing an mixed integer program and checking its feasibility. Hence, a straight-forward algorithm to choose this k-Center problem is doing a binary search between the result of the greedy algorithm and its half since that region guaranteed to include the optimal solution. By constructing this algorithm, we also handle one of the weakness of k-Center algorithm -robustness-. To make the k-Center problem robust, we assume a upper limit on the number of outliers $\Xi$ such that our algorithm can choose to not cover at most $\Xi$ data points. This mixed integer program can be written as:
+Although, the greedy algorithm gives a good initialization, in practice we can imprive the $2-OPT$ solution. The main idea is defining a problem which can check an upper bound on the optimal value. In other words, we can design an algorithm which decides $OPT \leq \delta$ or not. In order to do so, we define a mixed integer program (MIP) parametrized by $\delta$ such that its feasibility indicates $\min_{\mathbf{s}^1} \max_i \min_{j \in \mathbf{s}^1 \cup \mathbf{s}^0} \Delta(\mathbf{x}_i,\mathbf{x}_j) \leq \delta$. A straight-forward algorithm is using this MIP as a sub-routine and performing a binary search between the result of the greedy algorithm and its half since optimal solution is guaranteed to be included the greedy solution and its hald. While constructing this MIP, we also attemp to handle one of the weakness of k-Center algorithm -robustness-. To make the k-Center problem robust, we assume a upper limit on the number of outliers $\Xi$ such that our algorithm can choose to not cover at most $\Xi$ unsupervised data points. This mixed integer program can be written as:
 
 \begin{equation}
 \begin{aligned}
@@ -225,15 +224,15 @@ Feasible(b,\mathbf{s}^0,\delta, \Xi):  &\sum_j  u_j = |\mathbf{s}^0|+ b \\
 \end{aligned}
 \end{equation}
 
-In this formulation, $u_i$ is 1 if $i^{th}$ data point chosen as center and $0$ otherwise, $\omega_{i,j}$ is $1$ if $i^{th}$ point is covered by $j^{th}$ point and $\xi_{i,j}$ is 1 if $i^{th}$ point is an outlier and included in $j^{th}$ point without the $\delta$ constraint. We further visualize these variables in a diagram in Figure~\ref{mip}.
+In this formulation, $u_i$ is 1 if $i^{th}$ data point chosen as center and $0$ otherwise, $\omega_{i,j}$ is $1$ if $i^{th}$ point is covered by $j^{th}$ point and $\xi_{i,j}$ is 1 if $i^{th}$ point is an outlier and included in $j^{th}$ point without the $\delta$ constraint. We further visualize these variables in a diagram in Figure~\ref{mip}. And give the complete method in detail in Algorithm~\ref{alg:bin}. 
+
 
 \begin{figure}[h]
 \includegraphics[width=\columnwidth]{mip.pdf}
-\caption{Visualizations of the variables in the mixed integer program.}
+    \caption{Visualizations of the variables in the mixed integer program. In this solution, $4^{th}$ node is chosen as a center and node $0,1,3$ is ended up in $\delta$ ball around the $4^{th}$ node. The solution also marked $2^{nd}$ node as an outlier by not including it in any $\delta$ ball.}
 \label{mip}
 \end{figure}
 
-We solve this mixed integer program using Gurobi\cite{gurobi} software toolbox. We further give details of the binary search procedure using this mixed integer program in algorithmic form in Algorithm~\ref{alg:bin}. 
 
 \begin{algorithm}[tb]
    \caption{Robust k-Center}
@@ -255,7 +254,7 @@ We solve this mixed integer program using Gurobi\cite{gurobi} software toolbox. 
 \end{algorithm}
 \section{Implementation Details}
 The distance function, semi-supervised setup etc.
-
+We solve this mixed integer program using Gurobi\cite{gurobi} software toolbox. 
 \section{Experimental Results}
 
 \begin{figure*}
@@ -318,11 +317,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed luctus ex ac venena
 
 
 
-\section{Analysis of Algorithm}
-In this section, we analyze our algorithm in terms of generalization error. Our analysis mostly uses geometric arguments based on the assumption of Lipschitz continuity of loss function and regression function. The behavior we want to analyze is the relationship between $\frac{1}{m}\sum_j l(\mathbf{x}_{s(i)},y_{s(i)},A_{\mathbf{s}})$ and $E_{\mathbf{x},y \sim p_\mathcal{Z}}[l(\mathbf{x},y,A_{\mathbf{s}})]$.  In other words, we are interested in the relationship of empirical loss over the selected samples and the expected loss in unseen examples. We analyze these behavior in two separate parts; first, we analyze the relationship between expected loss and the empirical loss over entire dataset ($\frac{1}{n}\sum_i l(\mathbf{x}_i,y_i,A_\mathbf{s})$). Secondly, we analyze the relationship between the loss over entire dataset and empirical loss over the selected samples.
+\section{Analysis of the Algorithm}
+In this section, we analyze our algorithm in terms of generalization error.  We are typically interested in the error in unseen images $E_{\mathbf{x},y \sim p_\mathcal{Z}}[l(\mathbf{x},y,A_{\mathbf{s}})]$ in terms of the empirical loss over the labelled images $\frac{1}{m}\sum_j l(\mathbf{x}_{s(i)},y_{s(i)},A_{\mathbf{s}})$. However, this analysis requires joint treatment of the generalization error and the effect of query selection. For simplicity, we divide this analysis into two parts. First, we analyze the relationship between expected loss in unseen images (generalization error) and the empirical loss over the entire dataset ($\frac{1}{n}\sum_i l(\mathbf{x}_i,y_i,A_\mathbf{s})$). Secondly, we analyze the relationship between the loss over entire dataset and empirical loss over the qeried samples. Our analysis is largely based on the gometry of the space and the geometric properties of the loss function. We rely on Lipschitz continuity of loss function and regression function. 
 
-First, we give the following theorem as an straight-forward extension of the robustness property from \cite{robust}. We give a generalization bound using the Lipschitz continuity of a loss function.
-
+We study the generalization error by assuming a Lipschitz continuous loss function for a CNN. By extending the robustness results from \cite{robust}, we state the following theorem and defer its proof to the supplementary material.
 \begin{theorem}
 Given $n$ i.i.d. samples drawn from $p_\mathcal{Z}$ as $\{\mathbf{x}_i,y_i\}_{i\in[n]}$. If loss function $l(\cdot,y,\mathbf{w})$ is $\lambda^l$-Lipschitz continuous for all $y, \mathbf{w}$, bounded by $L$ and $\mathcal{X}x\mathcal{Y}$ has a covering number $N_{\epsilon}(\mathcal{X},|\cdot|_2)=K$; with probability at least $(1-\gamma)$,
 \[
@@ -334,15 +332,15 @@ Given $n$ i.i.d. samples drawn from $p_\mathcal{Z}$ as $\{\mathbf{x}_i,y_i\}_{i\
 \label{mainthm}
 \end{theorem}
 
-Proof of this theorem is given in the supplementary materials and explain the generalization properties of any machine learning algorithm with Lipschitz continuous loss functions. This theorem only applicable to the CNNs if they are Lipschitz continuous. Hence, we also show that the CNNs with max-pool and restricted liner units as non-linearity is Lipschitz continuous for $l_2$ loss with the following lemma.
+First of all, this theorem is applicable to any machine learning algorithm with Lipschitz loss function and we further prove the Lipschitz-continuity of CNNs. It can clearly be seen that the empirical loss converges to expected loss with large number of data points $n$ since $\lambda^l\epsilon$ term can be made arbitrarily small as long as $\mathcal{X}$ is a compact space. In order to complete the study about the generalization performance of CNNs, we prove the Lipschitz-continuity of the loss function of a CNN with the following lemma where max-pool and restricted liner units are the non-linearities and the loss is defined as $l_2$ distance between the desired probabilities and the soft-max outputs.
 
 \begin{lemma}
 A convolutional neural network with $n_c$ convolutional (with max-pool and ReLU) and $n_{fc}$ fully connected layers defined over C class with loss function defined as 2-norm between softmax and class probability is $\left(\frac{\sqrt{C-1}}{C} \alpha^{n_c+n_{fc}}\right)$-Lipschitz.
 \end{lemma}
 
-Here, $\alpha$ is the maximum over sum of weights in a single layer. Although, it looks unbounded, it can be made arbitrarily small without changing loss function behavior (ie. the CNN will not switch any label) since dividing all weights with a scalar will not switch any labels.
+Here, $\alpha$ is the maximum sum of  input weights per neuron (see supplementary materials for detailed definition). Although, it is in general unbounded, it can be made arbitrarily small without changing loss function behavior (ie. keeping the label of any data point $\mathbf{s}$ unchanged) since dividing all weights with a scalar will not switch labels. Hence, for any CNN, there is equivalent CNN (in terms of classification function) with $\alpha \leq \varrho$ for any $\varrho > 0$. We can conclude that CNNs enjoy a $0$ generalization error in limiting case thanks to the Lipschitz property.
 
-We further analyze the behavior of loss over the dataset in the setting where trained CNN reaches to a $0$ training error. Although, it looks restrictive, it is very feasible since CNNs are very effective because of their large parameter space. This can also be easily enforced by simply converting average loss into maximal loss via \cite{maximal_loss}. We did not need this trick since our CNNs reached 0 training error in all experiments. We show that the loss over the entire dataset can be bounded by the Bayes optimal classifier and the result of the discrete optimization problem.
+In order to complete the analysis, we need to study the behavior of the loss over the dataset in terms of the empirical loss over the selected(queried) samples. Here, we make a no training error assumption; in other words, we assume that the training error for labelled images is $0$ at the end of the learning. This is clearly a restrictive assumption; however, it is very feasible since CNNs are very representative because of their large parameter space. Moreover, this can also be easily enforced by simply converting average loss into maximal loss via \cite{maximal_loss}. We did not need this trick since our CNNs reached 0 training error in all experiments. Using this assumption, we show that the loss over the entire dataset can be bounded by the Bayes optimal classifier and the result of our discrete optimization problem.
 
 \begin{theorem}
 Given $n$ i.i.d. samples drawn from $p_\mathcal{Z}$ as $\{\mathbf{x}_i,y_i\}_{i\in[n]}$, and $m$ chosen points $\{ s(i) \in [N]\}_{\i \in [m]}$. If loss function $l(\cdot,y,\mathbf{w})$ is $\lambda^l$-Lipschitz continuous for all $y, \mathbf{w}$, regression function is $\lambda^\eta$-Lipschitz, $\{ s(i) \in [N]\}_{\i \in [m]}$ is $\delta$ cover of $\{\mathbf{x}_i,y_i\}_{i\in[n]}$, $l(\mathbf{x}_{s(j)},y_{s(j)},A_\mathbf{S})=0\quad \forall j \in [m]$; with probability at least $1-\gamma$,
@@ -356,7 +354,7 @@ where $\mathcal{L}_{[n]} (h^\star)$ is the loss of the Bayes-optimal classifier.
 \label{mainthm2}
 \end{theorem}
 
-It can easily be shown that; in this setting, $\lim_{n \rightarrow \infty} \frac{1}{n}\sum_i l(\mathbf{x}_i,y_i,A_\mathbf{s}) =   \mathcal{L}_{[n]} (h^\star) +\delta(\lambda^l + 2 \lambda^{\eta})$. Here, $\delta$ decreases when $m$ increases. Hence, the remaining step is showing that for any desired $\delta$ value, there exist a finite set of points which need to be queried. In other words, we need to show the finite query property for a desired error-rate. This is straightforward since our data points are coming from a compact space; hence, there exist a finite sub-cover to any union of open sets. We give the following Corollary without proof showing this;
+It can easily be shown that; in this setting, $\lim_{n \rightarrow \infty} \frac{1}{n}\sum_i l(\mathbf{x}_i,y_i,A_\mathbf{s}) =   \mathcal{L}_{[n]} (h^\star) +\delta(\lambda^l + 2 \lambda^{\eta})$. Clearly, $\delta$ decreases when $m$ increases; however, the rate is critical. To show that our algorithm sounds, we need to show that $\delta$ can be made arbitrarily small with finite $m$ in the limiting behavior of number of unlabelled data points (i.e. $n \rightarrow \infty$). Since our data points are coming from a compact space, there exist a finite sub-cover to any union of open sets. Hence, the finite query property is straightforward result of compactness. We give the following corollary without proof;
 
 \begin{cor}
 Given $n$ i.i.d. samples drawn from $p_\mathcal{Z}$ as $\{\mathbf{x}_i,y_i\}_{i\in[n]}$, and a desired error rate $\rho$. If loss function $l(\cdot,y,\mathbf{w})$ is $\lambda^l$-Lipschitz continuous for all $y, \mathbf{w}$, regression function is $\lambda^\eta$-Lipschitz, there exist a finite subset $\mathbf{s}$ with cardinality m such that any CNN achieving $0$ error over $\{\mathbf{x}_{s(j)},y_{s(j)}\}_{j \in [m]}$ achieve the following with probability $1$.
@@ -367,7 +365,7 @@ where $\mathcal{L}_{[n]} (h^\star)$ is the loss of the Bayes-optimal classifier.
 \label{maincor}
 \end{cor}
 
-In summary, we show that CNNs have Lipschitz continuous loss functions, making algorithm generalizes unseen images. If the underlying data distribution has Lipschitz continuous regression function as well, we can show under reasonable assumptions, a small subset of dataset is enough to be labelled as long as it covers the space efficiently. Hence, our algorithm is based on the optimization problem of covering this space as efficient as possible via minimizing $\epsilon(\lambda^l + 2 \lambda^{\eta})$ which we show as a bound over the loss of the dataset. Hence, our algorithm implicitly minimizes the error over the entire dataset. We also show that it is possible to reach any desired generalization error with finite number of queries.
+In summary, we show that CNNs have Lipschitz continuous loss functions, making them generalizes to unseen images. In addition, when the underlying data distribution has Lipschitz continuous regression functions, we further show, under reasonable assumptions, a small subset of dataset is enough to be labelled as long as it covers the space efficiently. Consider the fact that the difference between the empirical loss over unseen images and the optimal loss is bounded by $\delta(\lambda^l + 2 \lambda^{\eta})$. Moreover, our algorithm is based on direct minimization of $\delta$. Hence, our proposed method directly minimizes this loss and theoretical analysis validates our space-covering heuristic.
 
 \section{Conclusion}
 Suspendisse pharetra erat sapien, sit amet porta mi cursus congue. Sed pulvinar justo in metus sollicitudin mollis. Mauris sagittis dui vitae arcu gravida, et lacinia mauris ultrices. Sed faucibus nibh ac velit vehicula, ac molestie tellus mattis. Duis nec tellus erat. Aliquam pellentesque nibh quis ex blandit euismod porta id leo. In facilisis finibus nisl, rhoncus dignissim dui lobortis sit amet. Nulla pellentesque, nisi ac porta consectetur, lorem nisl rhoncus dolor, sed ornare mi nisi maximus magna. Integer nunc ipsum, lobortis vel diam in, vestibulum iaculis felis. Etiam viverra fermentum scelerisque. Praesent facilisis ultrices magna, sit amet dignissim velit rutrum tempor. Nunc in diam elit. Vestibulum eget molestie erat. 
