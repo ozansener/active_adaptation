@@ -1,0 +1,118 @@
+
+\section{Proof for Lemma 1}
+\begin{proof}
+We will start with showing that softmax function defined over $C$ class is $\frac{\sqrt{C-1}}{C}$-Lipschitz continuous. It is easy to show that for any differentiable function \mbox{$f:\mathbb{R}^n\rightarrow\mathbb{R}^m$},
+
+\[
+\left \| f(\mathbf{x})-f(\mathbf{y})\right \|_2 \leq \left \|J\right \|^*_F  \left\| \mathbf{x}-\mathbf{y}\right\|_2  \, \, \forall \mathbf{x},\mathbf{y}\in\mathbb{R}^n
+\]
+where $\left \|J\right \|^*_F = \max\limits_{\mathbf{x}} \left \|J\right \|_F$ and $J$ is the Jacobian matrix of $f$.
+
+Softmax function is defined as
+\[
+f(x)_i = \frac{\exp(x_i)}{\sum\limits_{j=1}^{C}\exp(x_j)}, \, i={1,2,...C}
+\]
+For brevity, we will denote $f_i(x)$ as $f_i$. The Jacobian matrix will be,
+\[
+J = \begin{bmatrix} f_1(1-f_1) & -f_1f_2  & ... & -f_1f_C \\
+-f_2f_1 & f_2(1-f_2)  & ...  & -f_2f_C \\
+... & ... & ... & ...  \\
+-f_{C}f_{1} & -f_{C}f_{2}  & ...  & -f_{C}(1-f_{C})
+\end{bmatrix}
+\]
+Now, Frobenius norm of above matrix will be,
+\[
+\left \| J \right \|_F = \sqrt{\sum\limits_{i=1}^{C}\sum\limits_{j=1 \\ i\neq j}^{C}f_{i}^{2}f_{j}^{2} + \sum\limits_{i=1}^{C} f_i^2(1-f_i)^2}
+\]
+It is straightforward to show that $f_i = \frac{1}{C}$ is the optimal solution for $\left \| J \right \|^{*}_F = \max\limits_{x}\left \| J \right \|_F $ Hence, putting $f_i = \frac{1}{C}$ in above equation , we get \mbox{$\left \| J \right \|^{*}_F = \frac{\sqrt{C-1}}{C}$}.
+
+Now, consider two inputs $\mathbf{x}$ and $\mathbf{\tilde{x}}$, such that their representation at layer $d$ is $\mathbf{x}^d$ and $\mathbf{\tilde{x}}^d$. Let's consider any convolution or fully-connected layer as $\mathbf{x}^d_j = \sum_i w_{i,j}^d \mathbf{x}^{d-1}_i$. If we assume, \mbox{$\sum_i |w_{i,j}| \leq \alpha \quad \forall i,j,d$}.  For any convolutional or fully connected layer, we can state:
+\[
+\|\mathbf{x}^d - \mathbf{\tilde{x}}^d\|_2 \leq  \alpha \|\mathbf{x}^{d-1} - \mathbf{\tilde{x}}^{d-1}\|_2
+\] 
+On the other hand, using $|a-b| \leq |\max(0, a) - \max(0,a)|$ and the fact that max pool layer can be written as a convolutional layer such that only one weight is 1 and others are 0. We can further state that for ReLU and max-pool layers,
+\[
+\|\mathbf{x}^d - \mathbf{\tilde{x}}^d\|_2 \leq  \|\mathbf{x}^{d-1} - \mathbf{\tilde{x}}^{d-1}\|_2
+\] 
+
+Combining with the Lipschitz constant of soft-max layer,
+\[
+\|CNN(\mathbf{x};\mathbf{w}) - CNN(\mathbf{\tilde{x}};\mathbf{w})\|_2 \leq   \frac{\sqrt{C-1}}{C} \alpha^{n_c+n_{fc}}  \|\mathbf{x}-\mathbf{\tilde{x}}\|_2
+\]
+Since the loss function is $l_2$ as well, this concludes the proof.
+\end{proof}
+
+\section{Proof for Theorem 1}
+In order to prove the Theorem 1, we extend the robustness bound from \cite{robust}.
+\begin{proof}
+\begin{small}
+We will start with
+\[
+\begin{aligned}
+&\left|E_{\mathbf{x},y \sim p_\mathcal{Z}}[l(\mathbf{x},y, A_\mathbf{s})] - \frac{1}{n}\sum_{i \in [n]} l(\mathbf{x}_i,y_i,A_\mathbf{s})\right| \\
+&\overset{(a)}{\leq} \left|\sum_{j \in [K]} E[l(\mathbf{x},y)| (\mathbf{x},y) \in C_j] \mu_{j} -  \sum_{j \in [K]} E[l(\mathbf{x},y)| (\mathbf{x},y) \in C_j] \frac{|n_j|}{n} \right| \\
+ &+  \left| \sum_{j \in [K]} E[l(\mathbf{x},y)| (\mathbf{x},y) \in C_j] \frac{|n_j|}{n}  - \frac{1}{n}\sum_{i \in [n]} l(\mathbf{x}_i,y_i) \right| \\
+  &\overset{(b)}{\leq}\left|\sum_{j \in [K]} E[l(\mathbf{x},y)| (\mathbf{x},y) \in C_j] (\mu_{j} -   \frac{|n_j|}{n}) \right|
+ +\frac{1}{n} \left|\sum_{j \in [K]} \sum_{i \in n_j} E[l(\mathbf{x},y)| (\mathbf{x},y) \in C_j]  - l(\mathbf{x}_i,y_i)\right| \\
+   &\overset{(c)}{\leq} \left|\sum_{j \in [K]} E[l(\mathbf{x},y)|z \in C_j] (\mu_{j} -   \frac{|n_j|}{n})\right| + \lambda^l \epsilon  \\
+ \end{aligned}
+\]
+\end{small}
+
+Here, with brevity we denoted $l(\mathbf{x},y, A_\mathbf{s})$ as $l(\mathbf{x},y)$. In $(a)$, we used the fact that the space has an $\epsilon$ cover; and denote the cover as $\{C_j\}_{j \in [K]}$ such that each $C_j$ has diameter at most $\epsilon$. We further defined an auxiliary variable $\mu_j=p((\mathbf{x},y) \in C_j)$ and $n_j = \sum_i \mathds{1}[(\mathbf{x}_i,y_i) \in C_j]$ and used triangle inequality. In $(b)$, we used $i \in n_j$ to represent $(\mathbf{x}_i,y_i) \in C_j$. Finally, in $(c)$ we used the fact that each ball has diameter at most $\epsilon$ and the loss function is $\lambda^l$-Lipschitz. 
+%Now, we will use the zero-loss of the classifier with Lipschitz continuity as;
+%\[
+%\begin{aligned}
+%\left|\frac{1}{n}\sum_i l(A_s,x_i) \right| &= \left|\frac{1}{n}\sum_{j \notin {s(i)}_{i\in [M]}} l(A_s,x_i)  \right| \\
+%&\leq  \frac{1}{n}\sum_{j \notin {s(i)}_{i\in [M]}} \lambda  \left| \mathbf{x}_i - \mathbf{x}_k\right | \leq \frac{n-m}{n} \lambda \tilde{\epsilon}
+%\end{aligned}
+%\]
+%Combining both,
+%\[
+%\begin{aligned}
+%&E[l(A_s,z)] \leq  \left|E[l(A_s,z)] - \frac{1}{n}\sum_i l(A_s,x_i) \right|  \\ &+ \left|\frac{1}{n}\sum_i l(A_s,x_i) - \frac{1}{m}\sum_i l(A_s,x_{s(i)}) \right| \\
+%&\leq \left|\sum_{j} E[l(A_s,z)|z \in C_j] (\mu_{j} -   \frac{|N_j|}{n})\right| +\epsilon(s) + \frac{n-m}{n} \lambda \tilde{\epsilon}
+%\end{aligned}
+%\]
+
+We can bound $E[l(\mathbf{x},y)|z \in C_j]$ with maximum loss $L$ and use Breteganolle-Huber-Carol inequality (\emph{cf} Proposition A6.6 of \cite{wellner}) in order to bound $\sum_{j} \mu_{j} -   \frac{|n_j|}{n}$. 
+
+Combining all; with probability at least $(1-\delta)$,
+\[
+\left|E_{\mathbf{x},y \sim p_\mathcal{Z}}[l(\mathbf{x},y, A_\mathbf{s})] - \frac{1}{n}\sum_{i \in [n]} l(\mathbf{x}_i,y_i,A_\mathbf{s})\right| \leq  \lambda^l \epsilon + L \sqrt{\frac{2K\log 2 + 2\log (1/\delta)}{n}}
+\]
+\end{proof}
+
+\section{Proof for Theorem 2}
+Before starting our proof, we state the Claim 1 from \cite{BerlindU15}. Fix some $p,p^\prime \in [0,1]$ and $y^\prime \in \{0,1\}$. Then,
+\[
+p_{y \sim p}(y \neq y^\prime) \leq p_{y \sim p^\prime}(y \neq y^\prime) + |p - p^\prime|
+\]
+\begin{proof}
+We will start our proof with bounding $E[l(\mathbf{x}_i,y_i)]$. We have a condition which states that there exists and $\mathbf{x}_j$ in $\delta$ ball around $\mathbf{x}_i$ such that $\mathbf{x}_j$ has $0$ loss.
+\[
+\begin{aligned}
+E[l(\mathbf{x}_i,y_i)] &= \sum_{k\in [C]} p_{y_i \sim \eta_k(\mathbf{x}_i)}(y_i = k) l(\mathbf{x}_i,k) \\
+&\overset{(d)}{\leq} \sum_{k\in [C]} p_{y_i \sim \eta_k(\mathbf{x}_j)}(y_i = k) l(\mathbf{x}_i,k) \\ &\quad+ \sum_{k\in [C]}  |\eta_k(\mathbf{x}_i)-\eta_k(\mathbf{x}_j)| l(\mathbf{x}_i,k) \\
+&\overset{(e)}{\leq} \sum_{k\in [C]} p_{y_i \sim \eta_k(\mathbf{x}_j)} (y_i = k) l(\mathbf{x}_i,k) + \delta \lambda^\eta L C\\ 
+\end{aligned}
+\]
+With abuse of notation, we represent \mbox{$\{y_i=k\} \sim \eta_k(\mathbf{x}_i)$} with \mbox{$y_i \sim \eta_k(\mathbf{x}_i)$}. We use Claim 1 in $(d)$, and Lipschitz property of regression function and bound of loss in $(d)$. Then, we can further bound the remaining term as; 
+\[
+\begin{aligned}
+&\sum_{k\in [C]} p_{y_i \sim \eta_k(\mathbf{x}_j)} (y_i = k) l(\mathbf{x}_i,k) \\
+&= \sum_{k\in [C]} p_{y_i \sim \eta_k(\mathbf{x}_j)} (y_i = k) [l(\mathbf{x}_i,k) - l(\mathbf{x}_j,k) ] \\ &\quad+ \sum_{k\in [C]} p_{y_i \sim \eta_k(\mathbf{x}_j)} (y_i = k) l(\mathbf{x}_j,k) \\
+&\leq \delta \lambda^l
+\end{aligned}
+\]
+where last step is coming from the fact that the trained classifier assumed to have $0$ loss over training points. If we combine them,
+\[
+E[l(\mathbf{x_i},y_i)] \leq \delta( \lambda^l+\lambda^\mu LC)
+\]
+We further use the Hoeffding's Bound and conclude that with probability at least $1 - \gamma$,
+\[
+\frac{1}{n}\sum_{i \in [n]} l(\mathbf{x}_i,y_i) \leq \delta (\lambda^l + \lambda^\mu LC)+ 
+\sqrt{\frac{L \log(1/\gamma)}{2n}}
+%\frac{\log(1/(1-\delta)){2n}
+\]
+\end{proof}

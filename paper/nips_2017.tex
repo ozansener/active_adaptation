@@ -1,23 +1,29 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%% ICML 2017 EXAMPLE LATEX SUBMISSION FILE %%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Use the following line _only_ if you're still using LaTeX 2.09.
-%\documentstyle[icml2017,epsf,natbib]{article}
-% If you rely on Latex2e packages, like most moden people use this:
 \documentclass{article}
 
-% use Times
-\usepackage{times}
-% For figures
+% if you need to pass options to natbib, use, e.g.:
+% \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading nips_2017
+%
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{nips_2017}
+
+\usepackage{nips_2017}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+% \usepackage[final]{nips_2017}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+
 \usepackage{graphicx} % more modern
-%\usepackage{epsfig} % less modern
-%\usepackage{subfigure} 
 \usepackage{caption}
 \usepackage{subcaption}
-
-% For citations
-\usepackage{natbib}
+\usepackage{wrapfig}
 
 % AMS stuff
 \usepackage{amsmath, amsthm, amssymb}
@@ -30,90 +36,69 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 
-% As of 2011, we use the hyperref package to produce hyperlinks in the
-% resulting PDF.  If this breaks your system, please commend out the
-% following usepackage line and replace \usepackage{icml2017} with
-% \usepackage[nohyperref]{icml2017} above.
-\usepackage{hyperref}
 \usepackage{booktabs}
-
-
-% Packages hyperref and algorithmic misbehave sometimes.  We can fix
-% this with the following command.
-\newcommand{\theHalgorithm}{\arabic{algorithm}}
+%\newcommand{\theHalgorithm}{\arabic{algorithm}}
 
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max}
-% Employ the following version of the ``usepackage'' statement for
-% submitting the draft version of the paper for review.  This will set
-% the note in the first column to ``Under review.  Do not distribute.''
-\usepackage{icml2017} 
-
-% Employ this version of the ``usepackage'' statement after the paper has
-% been accepted, when creating the final version.  This will set the
-% note in the first column to ``Proceedings of the...''
-%\usepackage[accepted]{icml2017}
 \usepackage{xspace}
 \newcommand*{\eg}{e.g.\@\xspace}
 \newcommand*{\ie}{i.e.\@\xspace}
 
-% The \icmltitle you define below is probably too long as a header.
-% Therefore, a short form for the running title is supplied here:
-\icmltitlerunning{ Active Learning for CNNs}
 
-\begin{document} 
+\title{Active Learning for Convolutional Neural Networks}
 
-\twocolumn[
-\icmltitle{ Active Learning for Convolutional Neural Networks}
+% The \author macro works with any number of authors. There are two
+% commands used to separate the names and addresses of multiple
+% authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to
+% break the lines. Using \AND forces a line break at that point. So,
+% if LaTeX puts 3 of 4 authors names on the first line, and the last
+% on the second line, try using \AND instead of \And before the third
+% author name.
 
-% It is OKAY to include author information, even for blind
-% submissions: the style file will automatically remove it for you
-% unless you've provided the [accepted] option to the icml2017
-% package.
+\author{
+  David S.~Hippocampus\thanks{Use footnote for providing further
+    information about author (webpage, alternative
+    address)---\emph{not} for acknowledging funding agencies.} \\
+  Department of Computer Science\\
+  Cranberry-Lemon University\\
+  Pittsburgh, PA 15213 \\
+  \texttt{hippo@cs.cranberry-lemon.edu} \\
+  %% examples of more authors
+  %% \And
+  %% Coauthor \\
+  %% Affiliation \\
+  %% Address \\
+  %% \texttt{email} \\
+  %% \AND
+  %% Coauthor \\
+  %% Affiliation \\
+  %% Address \\
+  %% \texttt{email} \\
+  %% \And
+  %% Coauthor \\
+  %% Affiliation \\
+  %% Address \\
+  %% \texttt{email} \\
+  %% \And
+  %% Coauthor \\
+  %% Affiliation \\
+  %% Address \\
+  %% \texttt{email} \\
+}
 
-% list of affiliations. the first argument should be a (short)
-% identifier you will use later to specify author affiliations
-% Academic affiliations should list Department, University, City, Region, Country
-% Industry affiliations should list Company, City, Region, Country
+\begin{document}
+% \nipsfinalcopy is no longer used
 
-% you can specify symbols, otherwise they are numbered in order
-% ideally, you should not use this facility. affiliations will be numbered
-% in order of appearance and this is the preferred way.
+\maketitle
 
-\begin{icmlauthorlist}
-\icmlauthor{Ozan Sener}{to}
-\icmlauthor{Silvio Savarese}{to}
-\end{icmlauthorlist}
-
-\icmlaffiliation{to}{Department of Computer Science, Stanford University, CA, US}
-
-\icmlcorrespondingauthor{Ozan Sener}{ozan@cs.stanford.edu}
-
-% You may provide any keywords that you 
-% find helpful for describing your paper; these are used to populate 
-% the "keywords" metadata in the PDF but will not be shown in the document
-\icmlkeywords{boring formatting information, machine learning, ICML}
-
-\vskip 0.3in
-]
-
-% this must go after the closing bracket ] following \twocolumn[ ...
-
-% This command actually creates the footnote in the first column
-% listing the affiliations and the copyright notice.
-% The command takes one argument, which is text to display at the start of the footnote.
-% The \icmlEqualContribution command is standard text for equal contribution.
-% Remove it (just {}) if you do not need this facility.
-
-%\printAffiliationsAndNotice{}  % leave blank if no need to mention equal contribution
-\printAffiliationsAndNotice{} % otherwise use the standard text.
-%\footnotetext{hi}
-
-\begin{abstract} 
+\begin{abstract}
 Convolutional neural networks (CNNs) have been successfully applied to many recognition and learning tasks using a universal recipe; training a deep model on a very large dataset of supervised examples. However, this approach is rather restrictive in practice since collecting a large set of labelled images is very expensive. One way to ease this problem is coming up with smart ways for choosing images to be labelled from a very large collection (\ie active learning)
 
 In this paper, we first show that existing active learning heuristics are not effective for CNNs even in an oracle case. Our counterintuitive empirical results make us question these heuristics and inspire us to come up with a simple but effective method, choosing a set of images to label such that they cover the set of unlabelled images as close as possible. We further present a theoretical justification for this geometric heuristic by presenting a bound over the generalization error of CNNs. Our experiments show that the proposed method significantly outperforms existing approaches in image classification experiments by a large margin.
-\end{abstract} 
+\end{abstract}
 
 \section{Introduction}
 Deep convolutional neural networks (CNNs) have shown unprecedented success in many areas of active research in computer vision and pattern recognition like image classification, object detection and scene segmentation. Although CNNs are universally successful in many tasks, they have a major drawback; they need very large amount of labelled data in order to be able to learn their millions of parameters. More importantly, it is almost always better to have more data since the accuracy of CNNs is often not saturated with increasing dataset size. Hence, there is a constant desire to collect more and more data. Although this behavior is rather desired from an algorithmic perspective (higher representative power is typically better), labelling a dataset is a time consuming and expensive task. These practical considerations bring a critical question: \emph{``what is the optimal way to choose data points to label such that the highest accuracy can be obtained given a fixed labeling budget.''} Active learning is one of the common paradigms to address this question.
@@ -180,22 +165,28 @@ In the non-Bayesian setting, the active learning problem is typically considered
 Empirical observation on ineffectiveness of uncertainty based approaches inspired us to design a rather non-intuitive method for active learning for CNNs. We propose to not use class estimates and/or labels of already labelled data points, but we instead attack the problem from a purely geometric perspective. We design an algorithm based on the heuristic of covering the set of unlabelled data points as closely as possible. We explain this algorithm in detail in Section~\ref{sec:alg} and further analyze it empirically in Section~\ref{sec:exp} and theoretically in Section~\ref{sec:analysis}.
 
 \subsection{Ineffectiveness of Uncertainty based Methods}
-\begin{figure}[t]
-   \vspace{-2mm}
-    \begin{subfigure}[b]{0.4927\columnwidth}
+
+
+
+\begin{wrapfigure}{t}{0.5\textwidth}
+\vspace{-10mm}
+  \begin{center}
+    \begin{subfigure}[b]{0.23\textwidth}
 		\includegraphics[width=\columnwidth]{fig1_a_1.pdf}
 		\caption{Uncertainty Oracle}
-		\vspace{-2mm}
     \end{subfigure}
-    \begin{subfigure}[b]{0.4927\columnwidth}
+    \begin{subfigure}[b]{0.23\textwidth}
 		\includegraphics[width=\columnwidth]{fig1_b_1.pdf}
 		\caption{Our Method}
-		\vspace{-2mm}
     \end{subfigure}
-    \caption{tSNE embeddings of images for active learning using uncertainty oracle and our algorithm. We compute the tSNE embeddings via features learned over entire dataset. We further choose a step in active learning with 5000 images in initial pool ($|\mathbf{s}^0|=0$) and algorithms need to choose 5000 more samples $|\mathbf{s}^1|=5000$ and color the initial pool of images ($\mathbf{s}^0$) with blue, the actively chosen images ($\mathbf{s}^1$) with green, and remaining images ($[n] \setminus (\mathbf{s}^0\cup \mathbf{s}^1)$) with red. We can conclude from these visualizations that uncertainty oracle creates a bias leaving a significant part of the dataset uncovered. Instead our algorithm approaches to the problem from purely geometric perspective perfectly covering the unlabelled images closely.}
-\label{fig:tsne}
-\end{figure}
+\end{center}
+{\small
+    \caption{tSNE embeddings of images for active learning using uncertainty oracle and our algorithm. We further choose a step in active learning with 5000 images in initial pool ($|\mathbf{s}^0|=0$) and algorithms need to choose 1000 more samples $|\mathbf{s}^1|=5000$ and color the initial pool of images ($\mathbf{s}^0$) with blue, the actively chosen images ($\mathbf{s}^1$) with green, and remaining images ($[n] \setminus (\mathbf{s}^0\cup \mathbf{s}^1)$) with red. We can conclude from these visualizations that uncertainty oracle creates a bias leaving a significant part of the dataset uncovered. }}
 \label{sec:whatif}
+\vspace{-5mm}
+\end{wrapfigure}
+
+
 It is very common to attribute the ineffectiveness of uncertainty methods in CNNs to the fact that uncertainty estimates based on soft-max outputs are typically not accurate. Hence, it is very common to hypothesize the following:
 
 \noindent\textbf{Hypothesis:} \emph{Deep learning algorithms lead to an inaccurate estimate of uncertainty hence the uncertainty based active learning methods fail with CNNs.}
@@ -215,9 +206,9 @@ We further discuss the failure of the uncertainty based oracle and try to motiva
 
 We believe this counterintuitive result is mostly due to the fact that we are sampling/labelling images in batches instead of querying one by one. Querying images one by one is not desired since a single point has no significant effect in deep learning due to the SGD. 
 
-\begin{figure}[hbt]
+\begin{figure}[t]
 \vspace{-3mm}
-\includegraphics[width=\columnwidth]{fig1_2.pdf}
+\includegraphics[width=\columnwidth]{fig1_2_h.pdf}
 \vspace{-5mm}
 \caption{Comparison of random sampling and active learning with oracle loss information. This figure suggests that even with oracle loss estimates, uncertainty based active learning algorithms are not effective for CNNs. Specifically for the case of semi-supervised learning, random sampling even outperforms oracle loss estimates. This is not surprising since semi-supervised algorithms relies heavily on feature learning and having a bias over the dataset would cause inaccurate feature learning.}
 \label{fig:neg}
@@ -225,18 +216,12 @@ We believe this counterintuitive result is mostly due to the fact that we are sa
 
 \subsection{The Algorithm}
 \label{sec:alg}
-We hypothesize that a good way to choose points to be labelled is trying to cover the unlabelled data points as close as possible. For example, consider a set of balls with radius $\delta$ centered at labelled points covering the entire unlabelled dataset. Intuitively, smaller $\delta$ should indicates a better the performance. Hence, we try to choose a subset of points which can minimize $\delta$ as an active learning strategy. 
-
-Our algorithm is simply based on the \emph{k-Center} problem (minimax facility location problem \cite{facility}) which can intuitively be defined as follows; choose $k$ center points such that the largest distance between a data point and its nearest center is minimized. Formally, we are trying to solve:
-\begin{equation}
-\min_{\mathbf{s}^1} \max_i \min_{j \in \mathbf{s}^1 \cup \mathbf{s}^0} \Delta(\mathbf{x}_i,\mathbf{x}_j)
-\end{equation}
-
-Unfortunately this problem is NP-Hard \cite{cook}. However, it is possible to obtain a $2-OPT$ solution efficiently using a greedy approach shown in  Algorithm~\ref{alg:greedy}. If $OPT=\min_{\mathbf{s}^1} \max_i \min_{j \in \mathbf{s}^1 \cup \mathbf{s}^0} \Delta(\mathbf{x}_i,\mathbf{x}_j)$, the greedy algorithm shown in Algorithm~\ref{alg:greedy} is proven to have a solution ($\mathbf{s}^1$) such that; $ \max_i \min_{j \in \mathbf{s}^1 \cup \mathbf{s}^0} \Delta(\mathbf{x}_i,\mathbf{x}_j) \leq 2 \times OPT$.
-
-\begin{algorithm}[ht]
+  \begin{wrapfigure}{R}{0.5\textwidth}
+    \begin{minipage}{0.5\textwidth}
+    \vspace{-8mm}
+\begin{algorithm}[H]
    \caption{k-Center-Greedy}
-   \label{alg:greedy}
+      \label{alg:greedy}
 \begin{algorithmic}
    \STATE {\bfseries Input:} data $\mathbf{x}_i$, existing pool $\mathbf{s}^0$ and a budget $b$
     \STATE Initialize $\mathbf{s}=\mathbf{s}^0$
@@ -247,34 +232,16 @@ Unfortunately this problem is NP-Hard \cite{cook}. However, it is possible to ob
    \STATE {\bfseries return} $\mathbf{s} \setminus \mathbf{s}^0$
 \end{algorithmic}
 \end{algorithm}
+\vspace{-8mm}
+    \end{minipage}
+  \end{wrapfigure}
 
-Although the greedy algorithm gives a good initialization, in practice we can improve the $2-OPT$ solution. The main idea is defining a problem which can check an upper bound on the optimal value. In other words, we can design an algorithm which decides if $OPT \leq \delta$. In order to do so, we define a mixed integer program (MIP) parametrized by $\delta$ such that its feasibility indicates $\min_{\mathbf{s}^1} \max_i \min_{j \in \mathbf{s}^1 \cup \mathbf{s}^0} \Delta(\mathbf{x}_i,\mathbf{x}_j) \leq \delta$. A straight-forward algorithm is using this MIP as a sub-routine and performing a binary search between the result of the greedy algorithm and its half since optimal solution is guaranteed to be included in that range. While constructing this MIP, we also try to handle one of the weaknesses of k-Center algorithm, namely robustness. To make the k-Center problem robust, we assume an upper limit on the number of outliers $\Xi$ such that our algorithm can choose not to cover at most $\Xi$ unsupervised data points. This mixed integer program can be written as:
-\vspace{-7mm}
-
-\begin{equation}
-\begin{aligned}
-Feasible(b,\mathbf{s}^0,\delta, \Xi):  &\sum_j  u_j = |\mathbf{s}^0|+ b \\
-&\sum_j \omega_{i,j} = 1 \quad \forall  i \\
-   &\omega_{i,j} = \xi_{i,j} \quad  \forall i,j \mid   \Delta(\mathbf{x}_i,\mathbf{x}_j)  > \delta \\
-   &\omega_{i,j} \leq u_j \quad \forall  i \\
-   &u_j =1 \quad \forall j\in \mathbf{s}^0 \\
-   & \sum_{i,j} \xi_{i,j} \leq \Xi \\
-   & u_i, \omega_{i,j}, \xi_{i,j} \in \{0,1\}
-\end{aligned}
-\label{mipfeasible}
-\end{equation}
-
-In this formulation, $u_i$ is 1 if $i^{th}$ data point is chosen as center, $\omega_{i,j}$ is $1$ if $i^{th}$ point is covered by $j^{th}$ point and $\xi_{i,j}$ is 1 if $i^{th}$ point is an outlier and included in $j^{th}$ point without the $\delta$ constraint, and $0$ otherwise. We further visualize these variables in a diagram in Figure~\ref{mip}, and give the complete method in detail in Algorithm~\ref{alg:bin}. 
-
-
-\begin{figure}[h]
-\includegraphics[width=\columnwidth]{mip.pdf}
-    \caption{Visualizations of the variables in the mixed integer program. In this solution, the $4^{th}$ node is chosen as a center and node $0,1,3$ ended up in a $\delta$ ball around the $4^{th}$ node. The solution also marked the $2^{nd}$ node as an outlier by not including it in any $\delta$ ball.}
-\label{mip}
-\end{figure}
-
-
-\begin{algorithm}[tb]
+We hypothesize that a good way to choose points to be labelled is trying to cover the unlabelled data points as close as possible. For example, consider a set of balls with radius $\delta$ centered at labelled points covering the entire unlabelled dataset. Intuitively, smaller $\delta$ should indicates a better the performance. Hence, we try to choose a subset of points which can minimize $\delta$ as an active learning strategy. 
+  
+    \begin{wrapfigure}{R}{0.5\textwidth}
+    \begin{minipage}{0.5\textwidth}
+    \vspace{-8mm}
+\begin{algorithm}[H]
    \caption{Robust k-Center}
    \label{alg:bin}
 \begin{algorithmic}
@@ -292,6 +259,48 @@ In this formulation, $u_i$ is 1 if $i^{th}$ data point is chosen as center, $\om
       \STATE {\bfseries return} $\{i\ s.t.\ u_i=1\}$
 \end{algorithmic}
 \end{algorithm}
+\vspace{-5mm}
+    \end{minipage}
+  \end{wrapfigure}
+
+Our algorithm is simply based on the \emph{k-Center} problem (minimax facility location problem \cite{facility}) which can intuitively be defined as follows; choose $k$ center points such that the largest distance between a data point and its nearest center is minimized. Formally, we are trying to solve:
+\begin{equation}
+\min_{\mathbf{s}^1} \max_i \min_{j \in \mathbf{s}^1 \cup \mathbf{s}^0} \Delta(\mathbf{x}_i,\mathbf{x}_j)
+\end{equation}
+
+
+
+Unfortunately this problem is NP-Hard \cite{cook}. However, it is possible to obtain a $2-OPT$ solution efficiently using a greedy approach shown in  Algorithm~\ref{alg:greedy}. If $OPT=\min_{\mathbf{s}^1} \max_i \min_{j \in \mathbf{s}^1 \cup \mathbf{s}^0} \Delta(\mathbf{x}_i,\mathbf{x}_j)$, the greedy algorithm shown in Algorithm~\ref{alg:greedy} is proven to have a solution ($\mathbf{s}^1$) such that; $ \max_i \min_{j \in \mathbf{s}^1 \cup \mathbf{s}^0} \Delta(\mathbf{x}_i,\mathbf{x}_j) \leq 2 \times OPT$.
+
+Although the greedy algorithm gives a good initialization, in practice we can improve the $2-OPT$ solution. The main idea is defining a problem which can check an upper bound on the optimal value. In other words, we can design an algorithm which decides if $OPT \leq \delta$. In order to do so, we define a mixed integer program (MIP) parametrized by $\delta$ such that its feasibility indicates $\min_{\mathbf{s}^1} \max_i \min_{j \in \mathbf{s}^1 \cup \mathbf{s}^0} \Delta(\mathbf{x}_i,\mathbf{x}_j) \leq \delta$. A straight-forward algorithm is using this MIP as a sub-routine and performing a binary search between the result of the greedy algorithm and its half since optimal solution is guaranteed to be included in that range. While constructing this MIP, we also try to handle one of the weaknesses of k-Center algorithm, namely robustness. To make the k-Center problem robust, we assume an upper limit on the number of outliers $\Xi$ such that our algorithm can choose not to cover at most $\Xi$ unsupervised data points. This mixed integer program can be written as:
+
+\begin{equation}
+\begin{aligned}
+Feasible(b,\mathbf{s}^0,\delta, \Xi):  &\sum_j  u_j = |\mathbf{s}^0|+ b \\
+&\sum_j \omega_{i,j} = 1\quad \text{and} \quad \omega_{i,j} \leq u_j \quad \forall  i \\
+   & \sum_{i,j} \xi_{i,j} \leq \Xi \quad \text{and} \quad u_i, \omega_{i,j}, \xi_{i,j} \in \{0,1\} \\
+   &\omega_{i,j} = \xi_{i,j} \quad  \forall i,j \mid   \Delta(\mathbf{x}_i,\mathbf{x}_j)  > \delta \\
+   &u_j =1 \quad \forall j\in \mathbf{s}^0 \\
+\end{aligned}
+\label{mipfeasible}
+\end{equation}
+
+In this formulation, $u_i$ is 1 if $i^{th}$ data point is chosen as center, $\omega_{i,j}$ is $1$ if $i^{th}$ point is covered by $j^{th}$ point and $\xi_{i,j}$ is 1 if $i^{th}$ point is an outlier and included in $j^{th}$ point without the $\delta$ constraint, and $0$ otherwise. We further visualize these variables in a diagram in Figure~\ref{mip}, and give the complete method in detail in Algorithm~\ref{alg:bin}. 
+
+
+\begin{wrapfigure}{r}{0.4\textwidth}
+\vspace{-5mm}
+  \begin{center}
+\includegraphics[width=0.38\textwidth]{mip.pdf}
+\end{center}
+    \caption{Visualizations of the variables in the mixed integer program. In this solution, the $4^{th}$ node is chosen as a center and node $0,1,3$ ended up in a $\delta$ ball around the $4^{th}$ node. The solution also marked the $2^{nd}$ node as an outlier by not including it in any $\delta$ ball.}
+\label{mip}
+\vspace{-12mm}
+\end{wrapfigure}
+
+
+
+
 \subsection{Implementation Details}
 \label{sec:imp}
 One of the most important design choices is the distance function $\Delta(\cdot,\cdot)$. We use the $l_2$ distance between activations of the final fully-connected layer as a distance function. For semi-supervised learning, we used Ladder networks \cite{ladder} and for all experiments we used VGG-16 \cite{vgg} as the CNN architecture. We optimized all models using RMSProp with a learning rate of $1\mathrm{e}{-3}$ using Tensorflow \cite{tensorflow}. We train CNNs from scratch after each iteration of active learning step.
@@ -303,15 +312,15 @@ While implementing our algorithm, we used Gurobi \cite{gurobi} framework for che
 \label{sec:analysis}
 \input{analysis}
 
-\begin{figure*}[ht]
+\begin{figure}[ht]
     \centering
-    \begin{subfigure}[b]{0.4927\textwidth}
+    \begin{subfigure}[b]{0.48\textwidth}
         \includegraphics[width=\textwidth]{ns_10_2.pdf}
         \caption{CIFAR-10}
     \end{subfigure}
     ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
     %(or a blank line to force the subfigure onto a new line)
-    \begin{subfigure}[b]{0.4927\textwidth}
+    \begin{subfigure}[b]{0.48\textwidth}
         \includegraphics[width=\textwidth]{ns_100_2.pdf}
         \caption{CIFAR-100}
     \end{subfigure}%
@@ -324,13 +333,13 @@ While implementing our algorithm, we used Gurobi \cite{gurobi} framework for che
 %    \centering
    \vspace{5mm}
 
-    \begin{subfigure}[b]{0.4927\textwidth}
+    \begin{subfigure}[b]{0.48\textwidth}
         \includegraphics[width=\textwidth]{s_10_2.pdf}
         \caption{CIFAR-10}
     \end{subfigure}
     ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
     %(or a blank line to force the subfigure onto a new line)
-    \begin{subfigure}[b]{0.4927\textwidth}
+    \begin{subfigure}[b]{0.48\textwidth}
         \includegraphics[width=\textwidth]{s_100_2.pdf}
         \caption{CIFAR-100}
     \end{subfigure}%
@@ -338,35 +347,36 @@ While implementing our algorithm, we used Gurobi \cite{gurobi} framework for che
     \caption{Results on Active Learning with Semi-Supervision}\label{fig:ressemi}
         \vspace{-3mm}
     \label{fig:ress}
-\end{figure*}
+\end{figure}
 
 \section{Experimental Results}
 \label{sec:exp}
 
 In order to evaluate our approach, we tested our algorithm on the problem of image classification. We used the CIFAR\cite{cifar} dataset in our experiments.  CIFAR\cite{cifar} dataset is composed of 50k images and each image is labelled with two different labels; one coarse-grained and one fine-grained. There are 100 fine-grained categories and 10 coarse-grained categories defined as strict super-sets of some of these fine-grained categories. 
 
-\begin{figure}[hbt]
-\includegraphics[width=\columnwidth]{u_100_2.pdf}
+\begin{wrapfigure}{r}{0.5\textwidth}
+\includegraphics[width=0.5\textwidth]{u_100_2.pdf}
 \caption{Experiment on unsupervised subset selection. We use our algorithm with ImprovedGAN\cite{improved_gan} features in unsupervised subset selection setup. Results suggest that our algorithm is more effective than uniform random sampling .}
-\vspace{-5mm}
 \label{fig:scat}
-\end{figure}
+\end{wrapfigure}
 
 We also performed experiments with and without semi-supervision. In our experiments, we start with 5k images sampled uniformly at random from the dataset as an initial pool. Semi-supervised algorithm has an access to labelled examples with their labels as well as unlabelled examples without their labels. Algorithms without semi-supervision have only access to the labelled data points. We use ladder networks\cite{ladder} for semi-supervision and the VGG16\cite{vgg} as a base architecture. We use the classification accuracy as a metric and plot the accuracy vs number of labelled points. At each step, we learned a network from scratch using $\mathbf{s}^{k} \cup \mathbf{s}^{k+1}$. We run the query algorithm iteratively; in other words, we solve the discrete optimization problem $\min_{\mathbf{s}^{k+1} : |\mathbf{s}^{k+1}| \leq b} E_{\mathbf{x},y \sim p_\mathcal{Z}} [l(\mathbf{x},y; A_{\mathbf{s}^{0} \cup \ldots, \mathbf{s}^{k+1}})]$ for each point on the accuracy vs number of labelled examples graph. We present the results in Figure~\ref{fig:ressemi}\&\ref{fig:resnosemi}.
 
 We compare our algorithm with uniformly random sampling as well as the uncertainty oracle explained in Section~\ref{sec:whatif}. We also compared our algorithm with CEAL \cite{wang2016cost} which is to the best-of-our-knowledge, only active learning algorithm presented for CNNs. Since it is a semi-supervised approach utilizing unlabelled data points, we only include it in semi-supervised analysis.
 
+ \begin{wrapfigure}{r}{0.5\textwidth}
+\includegraphics[width=0.48\textwidth]{mip_100_2.pdf}
+\caption{We compare our method with its greedy (k-CenterGreedy) version. Our algorithm provides both robustness and optimality with an additional computation cost and causes a small but not negligible accuracy improvement. }
+\label{fig:twoopt}
+\end{wrapfigure}
+
 Figure~\ref{fig:resns} and \ref{fig:ress} suggests that our algorithm outperforms all other baselines; for the case of semi-supervised learning, with a large margin. We believe the effectiveness of our approach in semi-supervised case is because of the feature learning. In semi-supervised case, the feature learning is extremely important and having biased view of the space of images, will cause in inaccurate features. Since semi-supervision and active learning are two of the most promising directions in easing the cost of labelling for CNNs, we believe their joint analysis is extremely important. We also observed that our algorithm is less effective in CIFAR-100. We believe this is mostly due to the fact that there are $\sim500$ images per class in CIFAR-100 hence the effective dataset size per class is very small. Also, our theoretical analysis suggests our bound scales linearly with number of classes hence it is better have small number of classes.
+
+
 
 \noindent\textbf{Optimality of the k-Center Solution:} Our proposed method is using the greedy 2-OPT solution for k-Center problem as an initialization and checks the feasibility of a mixed integer programming (MIP) program. Internally, we use LP-relaxation of the defined MIP and use branch-and-bound on the solution of the relaxed LP. Clearly, MIP does not enjoy a polynomial time solution; hence, the utility obtained by solving this expensive MIP should be investigated. We compare the average run-time of MIP\footnote{On Intel Core i7-5930K@3.50GHz and 64GB memory} with the run-time of 2-OPT solution in Table~\ref{tab:runtime}. We also compare the accuracy obtained with optimal k-Center solution and the 2-OPT solution in Figure~\ref{fig:twoopt}
 
- \begin{figure}[ht]
-\includegraphics[width=\columnwidth]{mip_100_2.pdf}
-\vspace{-5mm}
-\caption{We compare our method with its greedy (k-CenterGreedy) version. Our algorithm provides both robustness and optimality with an additional computation cost and causes a small but not negligible accuracy improvement. }
-\label{fig:twoopt}
-\vspace{-5mm}
-\end{figure}
+
 
 \begin{table}[ht]
 \centering
@@ -395,7 +405,14 @@ We perform this experiment with $l_2$ distance of features learned with no super
 
 \section{Conclusion}
 We described an active learning algorithm for CNNs. Our empirical analysis showed that classical uncertainty based methods have limited applicability to the CNNs. We design a simple but effective active learning algorithm for CNNs using geometric intuitions. We further validated our algorithm using both theoretical analysis and an empirical study. Empirical results on CIFAR\cite{cifar} dataset showed state-of-the-art performance with a large-margin specifically for the semi-supervised case.
-%\clearpage
+
+
+%{\small
 \bibliography{active_adversarial} 
-\bibliographystyle{icml2017}
-\end{document} 
+\bibliographystyle{abbrv}
+%}
+
+
+
+
+\end{document}
