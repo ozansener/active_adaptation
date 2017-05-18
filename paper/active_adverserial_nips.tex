@@ -121,13 +121,13 @@ Active learning has been widely studied and most of the early work can be found 
 
 Bayesian active learning methods typically use a non-parametric model like Gaussian process to estimate the expected improvement by each query \cite{kapoor2007active} or expected error after a set of queries \cite{roy2001toward}. These approaches are typically not applicable to deep learning scenarios since they do not scale to large-scale datasets. Ensemble methods are also not applicable to deep learning due to the large parameter space of neural networks. Such ensemble methods require an intractable number of networks to be trained to be effective.
 
-One important class is that of uncertainty based methods, which try to find hard examples using heuristics like highest entropy \cite{joshi2009multi}, and geometric distance to decision boundaries \cite{tong2001support,brinker2003incorporating}. We present an empirical result in Section~\ref{sec:whatif} which motivated us to move away from such techniques. We empirically demonstrate that even in the oracle case, such algorithms are typically not effective for CNNs.
+One important class is that of uncertainty based methods, which try to find hard examples using heuristics like highest entropy \cite{joshi2009multi}, and geometric distance to decision boundaries \cite{tong2001support,brinker2003incorporating}. We present an empirical result in Section~\ref{sec:whatif} which motivated us to move away from such techniques. We empirically demonstrate that even in the oracle case, such algorithms are not effective for CNNs.
 
 There are recent optimization based approaches which can trade-off uncertainty and diversity to obtain a diverse set of hard examples. Elhamifar~et al.  \cite{elhamifar2013convex} design a discrete optimization problem for this purpose and use its convex surrogate. However, the algorithm uses $n^2$ variables where $n$ is the number of data points. Hence, it does not scale to the deep learning case. There are also many discrete optimization based active learning algorithms designed for the specific class of machine learning algorithms like k-nearest neighbors and naive Bayes \cite{wei2015submodularity}. Even in the algorithm agnostic case, one can design a set-cover algorithm to cover the hypothesis space using sub-modularity \cite{guillory2010interactive, golovin2011adaptive}. Our algorithm can be considered to be in this class; however, we do not use any uncertainty information. Our algorithm is also the first one which applies to the CNNs.
 
-Recently, a discrete optimization based algorithm \cite{BerlindU15} which is similar to ours has been presented for k-nearest neighbors type of algorithms in domain shift setting. Although our theoretical analysis borrows many techniques from \cite{BerlindU15}, their results are only valid for k-NN and are not applicable to CNNs.
+Recently, a discrete optimization based method \cite{BerlindU15} which is similar to ours has been presented for k-NN type of algorithms in domain shift setting. Although our theoretical analysis borrows many techniques from \cite{BerlindU15}, their results are only valid for k-NN and are not applicable to CNNs.
 
-To the best-of-our-knowledge, the only active learning algorithm designed for CNNs is presented in \cite{wang2016cost}. It is a heuristic based transductive algorithm which directly assigns labels to the data points with high-confidence and queries labels for the ones with low confidence. We discuss its limitations in Section~\ref{sec:exp}.
+To the best-of-our-knowledge, the only active learning algorithm for CNNs is presented in \cite{wang2016cost}. It is a heuristic based algorithm which directly assigns labels to the data points with high confidence and queries labels for the ones with low confidence. We discuss its limitations in Section~\ref{sec:exp}.
 
 \noindent\textbf{Unsupervised Subset Selection}
 The closest literature to our work is the problem of unsupervised subset selection. This problem considers a fully labeled dataset and tries to choose a subset of it such that the model trained on the selected subset will perform as closely as possible to the model trained on the entire dataset. For specific learning algorithms, there are methods like core-sets for SVM \cite{tsang2005core} and core-sets for k-Means and k-Medians \cite{har2005smaller}. %However, there is no such method for CNNs.
@@ -147,9 +147,7 @@ An active learning algorithm has only access to $\{\mathbf{x}_i\}_{i \in [n]}$ a
 \begin{equation}
 \min_{\mathbf{s}^1 : |\mathbf{s}^1| \leq b} E_{\mathbf{x},y \sim p_\mathcal{Z}} [l(\mathbf{x},y; A_{\mathbf{s}^0 \cup \mathbf{s}^1})]
 \end{equation}
-In other words, an active learning algorithm can choose $b$ extra points and get them labelled by an oracle to minimize the future expected loss.
-
-There are a few differences between our formulation and the classical definition of active learning. Classical methods consider the case in which the budget is 1 ($b=1$) but a single point has negligible effect in a deep learning regime hence we consider the batch case. It is also very common to consider multiple rounds of this game. %as in each round $k$,% solving the following
+In other words, an active learning algorithm can choose $b$ extra points and get them labelled by an oracle to minimize the future expected loss. There are a few differences between our formulation and the classical definition of active learning. Classical methods consider the case in which the budget is 1 ($b=1$) but a single point has negligible effect in a deep learning regime hence we consider the batch case. It is also very common to consider multiple rounds of this game. %as in each round $k$,% solving the following
 %\begin{equation}
 %\min_{\mathbf{s}^{k+1} : |\mathbf{s}^{k+1}| \leq b} E_{\mathbf{x},y \sim p_\mathcal{Z}} [l(\mathbf{x},y;A_{\mathbf{s}^{0} \cup \ldots  \mathbf{s}^{k+1} \cup \ldots  \mathbf{s}%^{k+hor}})]
 %\end{equation}
@@ -159,58 +157,56 @@ We also follow the multiple round formulation with a myopic approach by solving 
 \begin{equation}
 \min_{\mathbf{s}^{k+1} : |\mathbf{s}^{k+1}| \leq b} E_{\mathbf{x},y \sim p_\mathcal{Z}} [l(\mathbf{x},y;A_{\mathbf{s}^{0} \cup \ldots  \mathbf{s}^{k+1}})]
 \end{equation}
-In other words, our method solves the multi-stage problem in a myopic way without utilizing look-ahead. In the rest of the paper we discuss the fist iteration where $k=0$ for brevity although we apply it over multiple rounds. 
+%Our method solves the multi-stage problem in a myopic way without utilizing look-ahead. 
+We only discuss the fist iteration where $k=0$ for brevity although we apply it over multiple rounds. 
 
-At each iteration, an active learning algorithm has two stages: 1. identifying a set of data-points and presenting them to an oracle to be labelled, and 2. training a classifier using these new as well as the previously labeled data-points. The second stage (training the classifier) can be done in a fully or weakly-supervised manner. Fully-supervised is the case where training the classifier is done using only the labeled data-points. Weakly-supervised is the case where training also utilizes the points which are NOT labelled yet. Although the existing literature only focus on the active learning for fully-supervised models, we considered both cases and experimented on both. 
+At each iteration, an active learning algorithm has two stages: 1. identifying a set of data-points and presenting them to an oracle to be labelled, and 2. training a classifier using these new as well as the previously labeled data-points. The second stage (training the classifier) can be done in a fully or weakly-supervised manner. Fully-supervised is the case where training the classifier is done using only the labeled data-points. Weakly-supervised is the case where training also utilizes the points which are not labelled yet. Although the existing literature only focus on the active learning for fully-supervised models, we considered both cases and experimented on both. 
 
 
 \section{Active Learning as a Set Cover}
 When there is no direct measure of uncertainty over the hypothesis class, the active learning problem is typically considered as refining decision boundaries by querying hard examples. Hence, using uncertainty is an empirically proven heuristic. However, this heuristic has very limited success in CNNs. This is widely attributed to the fact that the CNNs typically make very confident mistakes and the confidence values computed via soft-max outputs do not correspond to the true confidence of the model. Here, we focus on the following more fundamental question; \emph{would classical query methods work for CNNs if CNNs had an accurate uncertainty estimate?}. Although the common sense answer is affirmative, our empirical analysis shows that this is typically not the case. We describe this experiment in detail in Section~\ref{sec:whatif}.
 
-Empirical observation on the ineffectiveness of uncertainty based approaches inspired us to design a fundamentally different method for active learning for CNNs. We propose to not use uncertainty information, and approach to the problem from a purely geometric perspective. We design an algorithm based on the heuristic of covering the set of unlabeled data points as closely as possible. We explain this algorithm in detail in Section~\ref{sec:alg} and further analyze it empirically in Section~\ref{sec:exp} and theoretically in Section~\ref{sec:analysis}.
+Inspired by the empirical observation on the ineffectiveness of uncertainty based approaches, we propose to not use uncertainty information, and approach to the problem from a purely geometric perspective. We design an algorithm based on the heuristic of covering the set of unlabeled data points as closely as possible. We explain this algorithm in detail in Section~\ref{sec:alg} and further analyze it empirically in Section~\ref{sec:exp} and theoretically in Section~\ref{sec:analysis}.
 
 \subsection{Ineffectiveness of Uncertainty based Methods}
 \label{sec:whatif}
-It is very common to attribute the ineffectiveness of uncertainty methods in CNNs to the fact that uncertainty estimates based on soft-max outputs are typically not accurate. Hence, it is very common to hypothesize the following: Deep learning algorithms lead to an inaccurate estimate of uncertainty hence the uncertainty based active learning methods fail with CNNs. Although this hypothesis is very intuitive considering the many confident mistakes CNNs typically make, it is not enough to answer more fundamental question: If CNNs produced accurate estimates of uncertainty, would uncertainty based active learning methods work for CNNs?
+It is common to attribute the ineffectiveness of uncertainty methods in CNNs to the inaccuracy of the uncertainty estimates based on soft-max outputs. The common hypothesis is the following: \emph{Deep learning algorithms lead to an inaccurate estimate of uncertainty hence the uncertainty based active learning methods fail.} Although this hypothesis is intuitive considering the many confident mistakes CNNs make, it is not enough to answer more fundamental question: If CNNs produced accurate estimates of uncertainty, would uncertainty based active learning methods work for CNNs?
 
-We can answer this question by simply replacing the uncertainty estimate in active learning with oracle ground truth loss. In other words, we replace the uncertainty with $l(\mathbf{x}_i,y_i,A_{\mathbf{s}^0})$ for all unlabelled examples $\mathbf{x}_i$. Since this is the oracle for the estimation of the uncertainty, in practice the uncertainty based methods are expected to be upper bounded by this oracle. We sample the queries from the normalized form of this function by setting the probability of choosing the $i^{th}$ point to be queried as $p_i=\frac{l(\mathbf{x}_i,y_i,A_{\mathbf{s}^0})}{\sum_j l(\mathbf{x}_j,y_j,A_{\mathbf{s}^0})}$. We use two loss functions, classification accuracy \mbox{$\mathds{1}[y_i = \argmax_c CNN_c(\mathbf{x}_i;A_{\mathbf{s}^0})]$} and cross entropy \mbox{$ - CNN_{y_i}(\mathbf{x}_i;A_{\mathbf{s}^0}) -\sum_{c \in [C] \setminus y_i} \log(1-  CNN_{c}(\mathbf{x}_i;A_{\mathbf{s}^0}))$} where $\mathds{1}[\cdot]$ is the indicator function and $CNN_c(\cdot,\mathbf{w})$ is the activation of $c^{th}$ softmax output given network weights $\mathbf{w}$. As the oracle, we use the maximum accuracy obtained by querying based on either of these loss functions. We perform this experiment for fully supervised and weakly supervised case and plot the results in Figure~\ref{fig:neg}. \emph{(See Section~\ref{sec:imp} for implementation details)}
+We can answer this question by simply replacing the uncertainty estimate in active learning with oracle ground truth loss. In other words, we replace the uncertainty with $l(\mathbf{x}_i,y_i,A_{\mathbf{s}^0})$ for all unlabelled examples $\mathbf{x}_i$. Since this is the oracle for the estimation of the uncertainty, in practice the uncertainty based methods are expected to be upper bounded by this oracle. We sample the queries from the normalized form of this function by setting the probability of choosing the $i^{th}$ point to be queried as $p_i=\frac{l(\mathbf{x}_i,y_i,A_{\mathbf{s}^0})}{\sum_j l(\mathbf{x}_j,y_j,A_{\mathbf{s}^0})}$. We use two loss functions, classification accuracy \mbox{$\mathds{1}[y_i = \argmax_c h_c(\mathbf{x}_i;A_{\mathbf{s}^0})]$} and cross entropy \mbox{$ - h_{y_i}(\mathbf{x}_i;A_{\mathbf{s}^0}) -\sum_{c \in [C] \setminus y_i} \log(1-  h_{c}(\mathbf{x}_i;A_{\mathbf{s}^0}))$} where $\mathds{1}[\cdot]$ is the indicator function and $h_c(\cdot,\mathbf{w})$ is the activation of $c^{th}$ softmax output given network weights $\mathbf{w}$. As the oracle, we use the maximum accuracy obtained by querying based on either of these loss functions. We perform this experiment for fully supervised and weakly supervised case and plot the results in Figure~\ref{fig:neg}. \emph{(See Section~\ref{sec:imp} for implementation details)}
 
-Results in Figure~\ref{fig:neg} suggest that even in the oracle case, uncertainty based methods are not effective for CNNs when compared with random sampling. {\parfillskip0pt\par}
+Results in Figure~\ref{fig:neg} suggest that even in the oracle case, uncertainty based methods are not effective for CNNs when compared with random sampling. We even observe that it causes the accuracy to drop in the weakly-supervised case. Hence, the aforementioned hypothesis is not entirely correct at least for the batch setting. Hence, we can further conclude, Inaccurate estimate of uncertainty does not explain the failure of uncertainty based active learning methods in CNNs in batch setting. 
 
+We believe this counterintuitive result is mostly due to the fact that we are sampling/labelling images in batches instead of querying one by one. The batch sampling of queried samples creates strong correlation among the chosen data points.  On the other hand, querying images one by one is not desired since a single point has no significant effect in deep learning due to the SGD. In order to fix this, we perform the same experiment with exploration%{\parfillskip0pt\par}
 \begin{wrapfigure}{t}{0.5\textwidth}
-\vspace{-10mm}
+\vspace{-5mm}
   \begin{center}
     \begin{subfigure}[b]{0.23\textwidth}
 		\includegraphics[width=\columnwidth]{fig1_a_1.pdf}
-		\vspace{-5mm}
+		\vspace{-7mm}
 		\caption{Uncertainty Oracle}
     \end{subfigure}
     \begin{subfigure}[b]{0.23\textwidth}
 		\includegraphics[width=\columnwidth]{fig1_b_1.pdf}
-		\vspace{-5mm}
+		\vspace{-7mm}
 		\caption{Our Method}
     \end{subfigure}
 \end{center}
 \vspace{-3mm}
  \caption{tSNE embeddings of images for active learning using uncertainty oracle and our algorithm. We further choose a step in active learning with 5000 images in initial pool and algorithms need to choose 1000 more samples and color the initial pool of images with blue, the actively chosen images with green, and remaining images with red. The uncertainty oracle creates a bias leaving a significant part of the dataset uncovered. }
 \label{fig:tsne}
-\vspace{-10mm}
+\vspace{-5mm}
 \end{wrapfigure}
-
-
-
-\noindent We even observe that it causes the accuracy to drop in the weakly-supervised case. Hence, the aforementioned hypothesis is not entirely correct at least for the batch setting. Hence, we can further conclude, Inaccurate estimate of uncertainty does not explain the failure of uncertainty based active learning methods in CNNs in batch setting.
-
-We believe this counterintuitive result is mostly due to the fact that we are sampling/labelling images in batches instead of querying one by one. The batch sampling of queried samples creates strong correlation among the chosen data points. On the other hand, querying images one by one is not desired since a single point has no significant effect in deep learning due to the SGD. In order to fix this issue, we perform the same experiment with 20\% exploration as sampling points from the oracle density 80\% of the time and sampling uniformly at random remaining 20\% of the time. We also plot oracle with exploration in the same figure. Although it helps, the oracle still does not perform better than random baseline.
+ \noindent   as sampling points from the oracle density with probability $0.8$ and sampling uniformly with probability $0.2$. We plot the oracle with exploration in the same figure. Although it helps, the oracle still does not perform better than random.
 
 %We further discuss the failure of the uncertainty based oracle and try to motivate our method. 
-In order to visualize the bias, consider an embedding of images computed using the tSNE\cite{tsne} algorithm based on features learned after incorporating the entire dataset in learning. We plot the images in the initial pool ($\mathbf{s}^0$), chosen images for labelling ($\mathbf{s}^1$), and remaining images ($[n] \setminus (\mathbf{s}^0 \cup \mathbf{s}^1$)) with separate colors in Figure~\ref{fig:tsne}-a. As shown in Figure~\ref{fig:tsne}-a, the oracle algorithm samples the data points with a bias hence the resulting samples do not cover the space efficiently. A successful set of queries not only need to be hard-negatives but also need to cover the space efficiently. Hence, we believe covering the space effectively is very important for CNNs and we design an algorithm purely based on space covering in Section~\ref{sec:alg}. We also show the tSNE plot for our algorithm in Figure~\ref{fig:tsne}-b.
+In order to visualize the bias, consider an embedding of images computed using the tSNE\cite{tsne} algorithm based on features learned after incorporating the entire dataset in learning. We plot the images in the initial pool ($\mathbf{s}^0$), chosen images for labelling ($\mathbf{s}^1$), and remaining images ($[n] \setminus (\mathbf{s}^0 \cup \mathbf{s}^1$)) with separate colors in Figure~\ref{fig:tsne}-a. As shown in Figure~\ref{fig:tsne}-a, the oracle algorithm samples the data points with a bias. A successful set of queries not only need to be hard-negatives but also need to cover the space efficiently. Hence, we believe covering the space effectively is very important for CNNs and we design an algorithm purely based on space covering in Section~\ref{sec:alg}. We also show the tSNE plot for our algorithm in Figure~\ref{fig:tsne}-b.
 
 \begin{figure}[t]
-\vspace{-3mm}
+\vspace{-5mm}
 \includegraphics[width=\columnwidth]{fig1_2_h.pdf}
 \vspace{-5mm}
 \caption{\todo{add 0.8 exploration} Comparison of random sampling and active learning with oracle loss information. This figure suggests that even with oracle loss estimates, uncertainty based active learning algorithms are not effective for CNNs. Specifically for the case of active learning for weakly-supervised models, random sampling even outperforms oracle loss estimates. This is not surprising since weakly-supervised algorithms relies heavily on feature learning and having a bias over the dataset would cause inaccurate feature learning.}
+\vspace{-5mm}
 \label{fig:neg}
 \end{figure}
 
@@ -300,9 +296,9 @@ In this formulation, $u_i$ is 1 if $i^{th}$ data point is chosen as center, $\om
 
 \subsection{Implementation Details}
 \label{sec:imp}
-One of the most important design choices is the distance function $\Delta(\cdot,\cdot)$. We use the $l_2$ distance between activations of the final fully-connected layer as a distance function. For semi-supervised learning, we used Ladder networks \cite{ladder} and for all experiments we used VGG-16 \cite{vgg} as the CNN architecture. We optimized all models using RMSProp with a learning rate of $1\mathrm{e}{-3}$ using Tensorflow \cite{tensorflow}. We train CNNs from scratch after each iteration of the active learning step.
+One of the most important design choices is the distance metric $\Delta(\cdot,\cdot)$. We use the $l_2$ distance between activations of the final fully-connected layer as the distance. For weakly-supervised learning, we used Ladder networks \cite{ladder} and for all experiments we used VGG-16 \cite{vgg} as the CNN architecture. We optimized all models using RMSProp with a learning rate of $1\mathrm{e}{-3}$ using Tensorflow \cite{tensorflow}. We train CNNs from scratch after each iteration. % of the active learning.
 
-While implementing our algorithm, we used Gurobi \cite{gurobi} framework for checking feasibility of the MIP defined in (\ref{mipfeasible}). As an upper bound on number of outliers, we used $\Xi=1\mathrm{e}{-4} \times n$ where $n$ is the number of unlabelled data points.
+While implementing our algorithm, we used Gurobi \cite{gurobi} framework for checking feasibility of the MIP defined in (\ref{mipfeasible}). As an upper bound on number of outliers, we used $\Xi=1\mathrm{e}{-4} \times n$ where $n$ is the number of unlabelled points.
 
 %Upon acceptance, we are planning to release the trained models and the source code.
 %\clearpage
@@ -343,10 +339,11 @@ We also conducted experiments on active learning for fully-supervised models as 
 
 We compare our algorithm with uniformly at random sampling as well as the uncertainty oracle explained in Section~\ref{sec:whatif}. We also compared our algorithm with CEAL \cite{wang2016cost} which is to the best-of-our-knowledge, only active learning algorithm presented for CNNs. Since it is a weakly-supervised approach utilizing unlabeled data points, we only include it in the weakly-supervised analysis.
 
- \begin{wrapfigure}{r}{0.5\textwidth}
-\includegraphics[width=0.48\textwidth]{mip_100_2.pdf}
-\caption{We compare our method with its greedy (k-CenterGreedy) version. Our algorithm provides both robustness and optimality with an additional computation cost and causes a small but not negligible accuracy improvement. }
+ \begin{wrapfigure}{r}{0.4\textwidth}
+\includegraphics[width=0.4\textwidth]{mip_100_3.pdf}
+\caption{We compare our method with k-CenterGreedy. Our algorithm provides robustness and optimality resulting a small but not negligible accuracy improvement. }
 \label{fig:twoopt}
+\vspace{-5mm}
 \end{wrapfigure}
 
 Figure~\ref{fig:resns} and \ref{fig:ress} suggests that our algorithm outperforms all other baselines in all experiments; for the case of weakly-supervised models, with a large margin. We believe the effectiveness of our approach in the weakly-supervised case is due to the better feature learning. Weakly-supervised models provide better feature spaces resulting in accurate geometries. Since our method is geometric, it performs significantly better with better feature spaces. We also observed that our algorithm is less effective in CIFAR-100 and Caltech-256 when compared with CIFAR-10 and SVHN. This can easily be explained using our theoretical analysis. Our generalization bound scales linearly with the number of classes hence it is better to have fewer classes.
@@ -357,7 +354,7 @@ Figure~\ref{fig:resns} and \ref{fig:ress} suggests that our algorithm outperform
 \begin{table}[ht]
 \centering
 \vspace{-3mm}
-\caption{Decomposition of average run-time of our discrete optimization algorithm for $b=5000$ and $|\mathbf{s}^0|=10000$ in seconds.}
+\caption{Average run-time of our algorithm for $b=5k$ and $|\mathbf{s}^0|=10k$ in seconds.}
 \begin{tabular}{ccccc} \toprule
  Distance& Greedy & MIP & MIP &  \\
 Matrix &(2-OPT) & (per iteration) & (total) & Total \\ \midrule
