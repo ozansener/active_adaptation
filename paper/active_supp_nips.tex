@@ -99,6 +99,18 @@ In this supplementary materials, we present the proofs which are skipped in the 
 \end{abstract}
 
 \input{proofs}
+\section{Unsupervised subset selection} 
+
+Since our algorithm does not use any uncertainty information, we can also use it for unsupervised subset selection. In other words, given an informative distance function, we can use our algorithm to choose subset of the training set. In unsupervised subset selection problem, the constraint is using subset of the dataset due to the resource constraints. Given a dataset size constraint, the problem is choosing a subset of examples such that the trained model will perform as closely as possible to the model trained on entire dataset. One big difference to active learning is lack of iteration. Given a budget, subset is selected and not refined/improved.
+
+
+We perform this experiment with $l_2$ distance of features learned with no supervision as $\Delta(\cdot,\cdot)$. We use \cite{improved_gan} for unsupervised feature learning using their shared source code. We plot the accuracy vs dataset size using both our algorithm and uniformly random selection in Figure~\ref{fig:scat} and conclude that our algorithm is effective for the problem of unsupervised subset selection.  
+
+\begin{figure}[t]
+\includegraphics[width=\textwidth]{u_100_2.pdf}
+\caption{Experiment on unsupervised subset selection. We use our algorithm with ImprovedGAN\cite{improved_gan} features in unsupervised subset selection setup. Results suggest that our algorithm is more effective than uniform random sampling .}
+\label{fig:scat}
+\end{figure}
 
 %{\small
 \bibliography{active_adversarial} 
