@@ -1,0 +1,12 @@
+\BOOKMARK [1][-]{section.1}{introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Related Work}{}% 2
+\BOOKMARK [1][-]{section.3}{Problem Definition}{}% 3
+\BOOKMARK [1][-]{section.4}{Method}{}% 4
+\BOOKMARK [2][-]{subsection.4.1}{Active Learning as a Set Cover}{section.4}% 5
+\BOOKMARK [2][-]{subsection.4.2}{Core-Sets for CNNs}{section.4}% 6
+\BOOKMARK [2][-]{subsection.4.3}{Solving the k-Center Problem}{section.4}% 7
+\BOOKMARK [2][-]{subsection.4.4}{Implementation Details}{section.4}% 8
+\BOOKMARK [1][-]{section.5}{Experimental Results}{}% 9
+\BOOKMARK [1][-]{section.6}{Conclusion}{}% 10
+\BOOKMARK [1][-]{appendix.A}{Proof for Lemma 1}{}% 11
+\BOOKMARK [1][-]{appendix.B}{Proof for Proposition 1}{}% 12

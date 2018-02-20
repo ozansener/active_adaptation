@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: active_learning.aux
+The style file: iclr2018_conference.bst
+Database file #1: active_learning.bib
+Warning--empty journal in cifar
+Warning--can't use both volume and number fields in svhn
+You've used 55 entries,
+            2773 wiz_defined-function locations,
+            870 strings with 13511 characters,
+and the built_in function-call counts, 27252 in all, are:
+= -- 2370
+> -- 1669
+< -- 44
++ -- 562
+- -- 507
+* -- 2119
+:= -- 4083
+add.period$ -- 175
+call.type$ -- 55
+change.case$ -- 331
+chr.to.int$ -- 55
+cite$ -- 112
+duplicate$ -- 1318
+empty$ -- 2254
+format.name$ -- 596
+if$ -- 5832
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 53
+newline$ -- 285
+num.names$ -- 222
+pop$ -- 737
+preamble$ -- 1
+purify$ -- 277
+quote$ -- 0
+skip$ -- 1030
+stack$ -- 0
+substring$ -- 797
+swap$ -- 213
+text.length$ -- 18
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 600
+warning$ -- 2
+while$ -- 225
+width$ -- 0
+write$ -- 708
+(There were 2 warnings)
