@@ -24,10 +24,10 @@
 \usepackage{amsthm}
 % \usepackage[amsthm,thmmarks]{ntheorem}
 
-\newtheorem{theorem}{Proposition}
+\newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
 \newtheorem{cor}{Corollary}
-\newtheorem{proposition}{Proposition}
+\newtheorem{proposition}{Theorem}
 
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max}
@@ -46,11 +46,21 @@
 % as long as the \iclrfinalcopy macro remains commented out below.
 % Non-anonymous submissions will be rejected without review.
 
-\author{Ozan Sener \& Silvio Savarese \\
-Department of Computer Science\\
+
+\author{Ozan Sener\thanks{ Work is completed while author is at Stanford University.} \\
+Intel Labs \\
+\texttt{ozan.sener@intel.com} \\
+\And
+Silvio Savarese\\
 Stanford University \\
-\texttt{\{ozansener,ssilvio\}@cs.stanford.edu} \\
+\texttt{ssilvio@stanford.edu} 
 }
+
+%\author{Ozan Sener \& Silvio Savarese \\
+%Department of Computer Science\\
+%Stanford University \\
+%\texttt{\{ozansener,ssilvio\}@cs.stanford.edu} \\
+%}
 
 % The \author macro works with any number of authors. There are two commands
 % used to separate the names and addresses of multiple authors: \And and \AND.
@@ -63,7 +73,7 @@ Stanford University \\
 \newcommand{\fix}{\marginpar{FIX}}
 \newcommand{\new}{\marginpar{NEW}}
 
-% \iclrfinalcopy % Uncomment for camera-ready version, but NOT for submission.
+ \iclrfinalcopy % Uncomment for camera-ready version, but NOT for submission.
 
 \begin{document}
 
@@ -171,7 +181,7 @@ fully labeled dataset and tries to choose a subset of it such that the model
 trained on the selected subset will perform as closely as possible to the model
 trained on the entire dataset. For specific learning algorithms, there are
 methods like core-sets for SVM \citep{tsang2005core} and core-sets for k-Means
-and k-Medians \citep{har2005smaller,feldman0, feldman1,feldman2}. However, we are not aware of such a method for CNNs.
+and k-Medians \citep{har2005smaller}. However, we are not aware of such a method for CNNs.
 
 The most similar algorithm to ours is the unsupervised subset selection
 algorithm in \citep{wei2013using}. It uses a facility location problem
@@ -275,7 +285,7 @@ The optimization objective we define in (\ref{eq:new_active_learning}) is not di
 access to all the labels (\ie $[n] \setminus (\mathbf{s}^0 \cup \mathbf{s}^1)$ is unlabelled). Hence, in this section we
 give an upper bound for this objective function which we can optimize. 
 
-We start with presenting this bound for any loss function which is Lipschitz for a fixed true label $y$ and parameters $\mathbf{w}$, and then show that loss functions of CNNs with ReLu non-linearities satisfy this property. We also rely on the zero training error assumption. Although the zero training error is not an entirely realistic assumption,  our experiments suggest that the resulting upper bound is very effective. We state the following proposition;
+We start with presenting this bound for any loss function which is Lipschitz for a fixed true label $y$ and parameters $\mathbf{w}$, and then show that loss functions of CNNs with ReLu non-linearities satisfy this property. We also rely on the zero training error assumption. Although the zero training error is not an entirely realistic assumption,  our experiments suggest that the resulting upper bound is very effective. We state the following theorem;
 \begin{theorem} Given $n$ i.i.d. samples drawn from $p_\mathcal{Z}$ as $\{\mathbf{x}_i,y_i\}_{i\in[n]}$, and set of
     points $\mathbf{s}$. If loss function $l(\cdot,y,\mathbf{w})$ is $\lambda^l$-Lipschitz continuous
     for all $y, \mathbf{w}$ and bounded by $L$, regression function is $\lambda^\eta$-Lipschitz, $\mathbf{s}$
@@ -291,15 +301,15 @@ We start with presenting this bound for any loss function which is Lipschitz for
 \label{mainthm2} \end{theorem}
 
 Since we assume a zero training error for core-set, the core-set loss is equal to the average error over entire dataset as \mbox{$\left| \frac{1}{n}\sum_{i \in [n]} l(\mathbf{x}_i,y_i; A_{\mathbf{s}}) -
-    \frac{1}{|\mathbf{s}|}\sum_{j \in \mathbf{s}} l(\mathbf{x}_j,y_j;A_{\mathbf{s}}) \right| = \frac{1}{n}\sum_{i \in [n]} l(\mathbf{x}_i,y_i; A_{\mathbf{s}})$}. We state the proposition in this form to be consistent with (3). We visualize this proposition in Figure~\ref{fig:thm} and defer its proof to the appendix. In this proposition, ``a set $\mathbf{s}$ is a $\delta$ cover of a set $s^\star$''  means a set of balls with radius
-$\delta$ centered at each member of $\mathbf{s}$ can cover the entire $s^\star$. Informally, this proposition suggests that we can bound the core-set loss with covering radius and a term which goes to
+    \frac{1}{|\mathbf{s}|}\sum_{j \in \mathbf{s}} l(\mathbf{x}_j,y_j;A_{\mathbf{s}}) \right| = \frac{1}{n}\sum_{i \in [n]} l(\mathbf{x}_i,y_i; A_{\mathbf{s}})$}. We state the theorem in this form to be consistent with (3). We visualize this theorem in Figure~\ref{fig:thm} and defer its proof to the appendix. In this theorem, ``a set $\mathbf{s}$ is a $\delta$ cover of a set $s^\star$''  means a set of balls with radius
+$\delta$ centered at each member of $\mathbf{s}$ can cover the entire $s^\star$. Informally, this theorem suggests that we can bound the core-set loss with covering radius and a term which goes to
 zero with rate depends solely on $n$. This is an interesting result since this bound does not depend on the number of labelled points. In
 other words, a provided label does not help the core-set loss unless it decreases the covering radius.
 
 \begin{figure}[t]
 \vspace{-5mm}
     \begin{center} \includegraphics[width=0.75\textwidth]{thm.pdf} \end{center} 
-        \caption{\textbf{Visualization of the Proposition \ref{mainthm2}}. Consider the set of selected points
+        \caption{\textbf{Visualization of the Theorem \ref{mainthm2}}. Consider the set of selected points
         {\color{myblue} $\mathbf{s}$} and the points in the remainder of the dataset {\color{myred} $[n] \setminus
         \mathbf{s}$}, our results shows that if $\mathbf{s}$ is the $\delta_{\mathbf{s}}$ cover of the dataset, 
         $\left| {\color{myred} \frac{1}{n}\sum_{i \in [n]} l(\mathbf{x}_i,y_i,A_{\mathbf{s}})} -{\color{myblue} \frac{1}{|\mathbf{s}|}\sum_{j \in
@@ -317,7 +327,7 @@ probabilities and the softmax output of a convolutional neural network with $n_c
 Here, $\alpha$ is the maximum sum of  input weights per neuron (see appendix for formal definition). Although it is in
 general unbounded, it can be made arbitrarily small without changing the loss function behavior (\ie keeping the label
 of any data point $\mathbf{s}$ unchanged). We defer the proof to the appendix and conclude that CNNs enjoy the bound we
-presented in Proposition~\ref{mainthm2}.
+presented in Theorem~\ref{mainthm2}.
 
 In order to computationally perform active learning, we use this upper bound. In other words, the practical problem of interest becomes $\min_{\mathbf{s}^1:|\mathbf{s}^1 \leq b|} \delta_{\mathbf{s}^0\cup \mathbf{s}^1}$. This problem is equivalent to the k-Center problem (also called min-max facility location problem) \citep{facility}. In the next section, we explain how we solve the k-Center problem in practice using a greedy approximation.{\parfillskip0pt\par}
 
@@ -426,7 +436,7 @@ number of unlabelled points.
 
 
 \section{Experimental Results} \label{sec:exp} We tested our algorithm on the problem of classification using three
-different datasets. We performed experiments on CIFAR~\citep{cifar} and Caltech-256~\citep{caltech256} datasets for
+different datasets. We performed experiments on CIFAR~\citep{cifar} dataset for
 image classification and on SVHN\citep{svhn} dataset for digit classification. CIFAR~\citep{cifar} dataset has two
 tasks; one coarse-grained over 10 classes and one fine-grained over 100 classes. We performed experiments on both.
 
@@ -479,7 +489,7 @@ Figures~\ref{fig:resns} and \ref{fig:ress} suggests that our algorithm outperfor
 experiments; for the case of weakly-supervised models, by a large margin. We believe the effectiveness of our approach
 in the weakly-supervised case is due to the better feature learning. Weakly-supervised models provide better feature
 spaces resulting in accurate geometries. Since our method is geometric, it performs significantly better with better
-feature spaces. We also observed that our algorithm is less effective in CIFAR-100 and Caltech-256 when compared with
+feature spaces. We also observed that our algorithm is less effective in CIFAR-100 when compared with
 CIFAR-10 and SVHN. This can easily be explained using our theoretical analysis. Our bound over the core-set loss scales with the
 number of classes, hence it is better to have fewer classes.
 
@@ -606,7 +616,7 @@ Using the reverse triangle inequality as
 we can conclude that the loss function is $\frac{\sqrt{C-1}}{C} \alpha^{n_c+n_{fc}}$-Lipschitz for any fixed $y$ and $\mathbf{w}$.
 \end{proof}
 
-\section{Proof for Proposition 1}
+\section{Proof for Theorem 1}
 Before starting our proof, we state the Claim 1 from \cite{BerlindU15}. Fix some $p,p^\prime \in [0,1]$ and $y^\prime \in \{0,1\}$. Then,
 \[
 p_{y \sim p}(y \neq y^\prime) \leq p_{y \sim p^\prime}(y \neq y^\prime) + |p - p^\prime|

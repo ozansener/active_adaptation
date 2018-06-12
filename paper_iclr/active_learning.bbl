@@ -1,4 +1,4 @@
-\begin{thebibliography}{55}
+\begin{thebibliography}{51}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -12,12 +12,6 @@ Martin Abadi, Ashish Agarwal, Paul Barham, Eugene Brevdo, Zhifeng Chen, Craig
 \newblock Tensorflow: Large-scale machine learning on heterogeneous distributed
   systems.
 \newblock \emph{arXiv:1603.04467}, 2016.
-
-\bibitem[Barger \& Feldman(2016)Barger and Feldman]{feldman2}
-Artem Barger and Dan Feldman.
-\newblock k-means for streaming and distributed big sparse data.
-\newblock In \emph{Proceedings of the 2016 SIAM International Conference on
-  Data Mining}, pp.\  342--350. SIAM, 2016.
 
 \bibitem[Berlind \& Urner(2015)Berlind and Urner]{BerlindU15}
 C.~Berlind and R.~Urner.
@@ -74,13 +68,6 @@ Ehsan Elhamifar, Guillermo Sapiro, Allen Yang, and S~Shankar~Sasrty.
 \newblock A convex optimization framework for active learning.
 \newblock In \emph{ICCV}, 2013.
 
-\bibitem[Feldman et~al.(2013)Feldman, Schmidt, and Sohler]{feldman0}
-Dan Feldman, Melanie Schmidt, and Christian Sohler.
-\newblock Turning big data into tiny data: Constant-size coresets for k-means,
-  pca and projective clustering.
-\newblock In \emph{Proceedings of the twenty-fourth annual ACM-SIAM symposium
-  on Discrete algorithms}, pp.\  1434--1453. SIAM, 2013.
-
 \bibitem[Freund et~al.(1997)Freund, Seung, Shamir, and
   Tishby]{freund1997selective}
 Yoav Freund, H~Sebastian Seung, Eli Shamir, and Naftali Tishby.
@@ -124,12 +111,6 @@ Ian Goodfellow, Jean Pouget-Abadie, Mehdi Mirza, Bing Xu, David Warde-Farley,
   Sherjil Ozair, Aaron Courville, and Yoshua Bengio.
 \newblock Generative adversarial nets.
 \newblock In \emph{NIPS}, 2014.
-
-\bibitem[Griffin et~al.(2007)Griffin, Holub, and Perona]{caltech256}
-G.~Griffin, A.~Holub, and P.~Perona.
-\newblock Caltech-256 object category dataset.
-\newblock Technical Report 7694, California Institute of Technology, 2007.
-\newblock URL \url{http://authors.library.caltech.edu/7694}.
 
 \bibitem[Guillory \& Bilmes(2010)Guillory and Bilmes]{guillory2010interactive}
 Andrew Guillory and Jeff Bilmes.
@@ -229,12 +210,6 @@ Yuval Netzer, Tao Wang, Adam Coates, Alessandro Bissacco, Bo~Wu, and Andrew~Y
 \newblock Reading digits in natural images with unsupervised feature learning.
 \newblock In \emph{NIPS workshop on deep learning and unsupervised feature
   learning}, volume 2011, pp.\ ~5, 2011.
-
-\bibitem[Paul et~al.(2014)Paul, Feldman, Rus, and Newman]{feldman1}
-Rohan Paul, Dan Feldman, Daniela Rus, and Paul Newman.
-\newblock Visual precis generation using coresets.
-\newblock In \emph{Robotics and Automation (ICRA), 2014 IEEE International
-  Conference on}, pp.\  1304--1311. IEEE, 2014.
 
 \bibitem[Radford et~al.(2015)Radford, Metz, and Chintala]{dcgan}
 Alec Radford, Luke Metz, and Soumith Chintala.
